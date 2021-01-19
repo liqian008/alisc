@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <p th:text="${name}">name</p>
+    <p th:text="${age}">age</p>
+    <p th:text="${birthDate}">birthDate</p>
+
+    ——————
+
+    <p th:value="${name}">name</p>
+    <p th:value="${age}">age</p>
+    <p th:value="${birthDate}">birthDate</p>
+
+
+    ——————
+
+    <input type="text" th:value="${name}">
+    <input type="hidden" th:value="${age}">
+
+</body>
+</html>

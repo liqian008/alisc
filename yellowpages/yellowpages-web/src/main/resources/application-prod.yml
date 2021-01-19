@@ -1,0 +1,67 @@
+
+
+
+server:
+  port: 8080
+
+spring:
+  datasource:
+    name: springboot-datasource
+    username: root
+    password: Save,188@2021
+    url: jdbc:mysql://localhost:4306/yellow_pages?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #监控统计拦截的过滤器 不加监控界面sql无法统计 wall用于防火墙
+      #      filters: stat,wall,log4j,config
+      #最大连接数
+      max-active: 100
+      #初始化大小
+      initial-size: 5
+      #获取连接最大等待时间
+      max-wait: 60000
+      min-idle: 1
+      #间隔多久检测一次需要关闭的空闲连接 毫秒
+      time-between-eviction-runs-millis: 60000
+      #连接在连接池中最小生存的时间，毫秒
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 50
+      max-pool-prepared-statement-per-connection-size: 20
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+        url-pattern: /*
+      stat-view-servlet:
+        #白名单IP
+        allow: 127.0.0.1
+        #黑名单IP
+        #        deny: 192.168.0.106
+        #登录账号和密码
+        login-username: admin
+        login-password: admin
+        #启用重置数据功能
+        reset-enable: true
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  mvc:
+    static-path-pattern: /static/**
+#    view:
+#      prefix: /WEB-INF/jsp/
+#      suffix: .jsp
+#  mvc:
+#    throw-exception-if-no-handler-found: true
+
+#logging:
+#  level:
+#    com.shan.yellowpages: debug
+
+log.path: /opt/springboot/yellowpages/logs

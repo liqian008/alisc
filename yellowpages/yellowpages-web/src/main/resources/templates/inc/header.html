@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--提供统一的页面样式和js文件引入，减少重复代码-->
+<!--bootstrap基础引入-->
+<div th:fragment="base-source">
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/static/css/londinium-theme.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/static/css/styles.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/static/css/icons.min.css}" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" src="//res.dance798.com/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="//res.dance798.com/sdk/partner/partner_util.min.js"></script>
+    <script type="text/javascript" th:src="@{/static/js/jquery/1.10.2/jquery-ui.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/charts/sparkline.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/uniform.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/select2.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/inputmask.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/autosize.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/inputlimit.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/listbox.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/multiselect.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/tags.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/switch.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/uploader/plupload.full.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/forms/uploader/plupload.queue.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/daterangepicker.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/fancybox.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/prettify.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/moment.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/jgrowl.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/datatables.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/colorpicker.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/fullcalendar.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/timepicker.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/plugins/interface/collapsible.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/application.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/CommonUtil.js}"></script>
+
+</div>
+
+
+<!--登录header-->
+<div th:fragment="loginHeader">
+    <!-- navbar -->
+    <div class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target=".navbar-right">
+                <span class="sr-only">Toggle navbar</span><i class="icon-grid3"></i>
+            </button>
+            <div th:replace="inc/headerLogo :: headerLogo"  ></div>
+        </div>
+    </div>
+    <!-- /navbar -->
+</div>
+
+<!--通用header标题栏-->
+<div th:fragment="header">
+    <!-- Navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <div th:replace="inc/headerLogo :: headerLogo"></div>
+            <a class="sidebar-toggle"><i class="icon-paragraph-justify2"></i></a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-icons">
+                <span class="sr-only">Toggle navbar</span><i class="icon-grid3"></i>
+            </button>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar">
+                <span class="sr-only">Toggle navigation</span><i class="icon-paragraph-justify2"></i>
+            </button>
+        </div>
+        <ul class="nav navbar-nav navbar-right collapse" id="navbar-icons">
+            <li class="user dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown">
+                    <img th:src="@{/static/images/demo/users/default_avatar.jpg}" alt="">
+                    <span th:text="${session._session_user.nickname}"></span>
+                    <i class="caret"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right icons-right">
+                    <li><a th:href="@{/home/profile}"><i class="icon-user"></i>个人资料</a></li>
+                    <li><a th:href="@{/home/password}"><i class="icon-lock"></i>修改密码</a></li>
+                    <li><a th:href="@{/passport/logout}"><i class="icon-exit"></i>注销</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- /navbar -->
+</div>
+
+</html>

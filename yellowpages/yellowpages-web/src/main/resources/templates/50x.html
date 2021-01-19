@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台管理系统</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/londinium-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/styles.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/icons.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body class="full-width page-condensed">
+<!-- Navbar -->
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="navbar-header">
+        <!-- <a class="navbar-brand" href="javascript:void(0)"><img src="images/logo.png" alt="Londinium"></a> -->
+    </div>
+</div>
+<!-- /navbar -->
+<!-- Error wrapper -->
+<div class="error-wrapper text-center">
+    <h1>500</h1>
+    <h6>- 页面出错了! -</h6>
+    <!-- Error content -->
+    <div class="error-content">
+        <div class="row">
+            <div style="width: 130px;margin: auto;"> <a href="/home/index" class="btn btn-danger btn-block">去首页</a> </div>
+            <p th:text="|错误码 : ${khResponseResult.errorCode}|"></p>
+            <p th:text="|错误信息:${khResponseResult.errorMessage}|"></p>
+<!--            <p th:if="${khResponseResult.errorCode}!=null" th:text="|详细错误信息:${errorMessageData}|"></p>-->
+        </div>
+    </div>
+    <!-- /error content -->
+</div>
+<!-- /error wrapper -->
+<!-- Footer -->
+<div class="footer clearfix">
+    <div class="pull-right icons-group"> <a href="javascript:void(0)"><i class="icon-screen2"></i></a> <a href="javascript:void(0)"><i class="icon-balance"></i></a> <a href="javascript:void(0)"><i class="icon-cog3"></i></a> </div>
+</div>
+<!-- /footer -->
+</body>
+
+</html>

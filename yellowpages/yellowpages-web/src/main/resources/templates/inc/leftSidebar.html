@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- th:fragment 定义需要引入的代码块，该div包含的内容即为引用的公共内容 -->
+<div th:fragment="menu">
+    <div class="sidebar collapse">
+        <div class="sidebar-content">
+            <div class="user-menu dropdown">
+                <a href="#"><img th:src="@{/static/images/demo/users/default_avatar.jpg}" alt="" />
+                    <div class="user-info" >
+                        <span th:text="${session._session_user.nickname}"></span>
+                        <span>管理员</span>
+                    </div>
+                </a>
+            </div>
+            <!-- Main navigation -->
+            <ul class="navigation navigation-icons-left">
+
+                <li th:each="menu : ${session._session_nav_menu}">
+<!--                <li th:classappend="${#httpServletRequest.getContextPath().contains(menu.link)} ? 'active' : 'aa'" th:each="menu : ${session._session_nav_menu}">-->
+                    <a class="expand" id="second-level"><span th:text="${menu.title}"></span>
+                        <i class="icon-grid"></i></a>
+                    <ul>
+                        <li th:each="child : ${menu.children}">
+                            <a th:href="${child.menuCode}" >
+                                <span th:text="*{child.title}"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /main navigation -->
+        </div>
+    </div>
+</div>
+
+</html>

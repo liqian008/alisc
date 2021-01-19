@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>角色管理</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+    <div th:replace="inc/header :: date"></div>
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+<script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<link href="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    角色管理
+                </h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">角色管理</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>功能介绍</h5>
+        </div>
+
+        <form id="validate" action="./save" method="post" class="form-horizontal form-bordered">
+
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>编辑角色信息
+                    </h6>
+                </div>
+                <div class="panel-body">
+                    <input th:if="${adminRole} != null" id="id" name="id" type="hidden" th:value="${adminRole} ? ${adminRole.id}" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">角色名: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="roleName" id="roleName" th:value="${adminRole.roleName}"/>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">状 态: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select class="form-control " id="status" name="status" th:field="${adminRole.status}">
+                                <option value="1" label="启用"></option>
+                                <option value="0" label="禁用"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions text-right">
+                        <input type="reset" value="重 置" class="btn btn-danger">
+                        <input type="submit" value="提 交" class="btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div th:replace="inc/footer :: footer"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#validate').bootstrapValidator({
+            fields: {
+                "roleName": {
+                    message: '角色名不符合要求',
+                    validators: {
+                        notEmpty: {
+                            message: '角色名不能为空'
+                        }
+                    }
+                }
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+
+
+
+server:
+  port: 9090
+
+spring:
+  application:
+    name: common-server
+  cloud:
+    nacos:
+      config:
+        server-addr: 121.36.7.207:8848
+      discovery:
+        server-addr: 121.36.7.207:8848
+
+
+  #sentinel
+  sentinel:
+    transport:
+      dashboard: localhost:8080
+
+

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>角色管理</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+    <div th:replace="inc/header :: date"></div>
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+<script src="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<link href="https://cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+    
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    关联用户角色
+                    <!--
+                    <small>Headings, lists, code, pre etc. </small>
+                     -->
+                </h3>
+            </div>
+        </div>
+        <!-- /page header -->
+        <!-- Breadcrumbs line -->
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">关联用户角色</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+        <!-- /breadcrumbs line -->
+        
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>功能介绍</h5>
+            <p>
+                1、用户关联角色，关联成功之后，对应的用户需要注销并重新登录方可生效<br/>
+            </p>
+        </div>
+        
+        
+        <form id="validate" action="./saveUserRole" method="post" class="form-horizontal form-bordered">
+            
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>关联用户角色
+                    </h6>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">用户名: <span class="mandatory">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="username" id="username" th:value="${adminUser.username}"/>
+                            <input type="hidden" name="userId" id="userId" th:value="${adminUser.id}"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">昵 称: <span class="mandatory">*</span></label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="nickname" id="nickname" th:value="${adminUser.nickname}"/>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">关联角色: <span class="mandatory">*</span></label>
+                        <div class="col-sm-10">
+                            <div class="checkbox checkbox-info" th:each="item,iterStat:${khSecurityRelationStructList}">
+                                <label>
+                                    <input class="styled" type="checkbox" name="roleIds" th:id="'roleId_'+${item.id}"
+                                           th:value="${item.id}" th:checked="${item.check}==1" th:disabled="${item.status== 0}"/>
+                                    <span th:text="${item.name+'— 【状态: '+item.statusDesc+'】'}"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions text-right">
+                        <input type="reset" value="重 置" class="btn btn-danger">
+                        <input type="submit" value="提 交" class="btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        
+        </form>
+
+        <div th:replace="inc/footer :: footer"></div>
+    
+    </div>
+    <!-- /page content -->
+</div>
+<!-- /page container -->
+<script>
+    $(function(){
+        $('#validate').bootstrapValidator({
+            fields: {
+                "username": {
+                    message: '用户名不符合要求',
+                    validators: {
+                        notEmpty: {
+                            message: '用户名不能为空'
+                        }
+                    }
+                },
+                "nickname":{
+                    message: '昵称不符合要求',
+                    validators: {
+                        notEmpty: {
+                            message: '昵称不能为空'
+                        }
+                    }
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

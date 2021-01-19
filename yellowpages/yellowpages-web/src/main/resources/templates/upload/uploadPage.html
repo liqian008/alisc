@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>上传文件</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+    <div th:replace="inc/header :: date"></div>
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+    
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    上传文件
+                    <!--
+                    <small>Headings, lists, code, pre etc. </small>
+                     -->
+                </h3>
+            </div>
+        </div>
+        <!-- /page header -->
+        <!-- Breadcrumbs line -->
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">上传文件</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+        <!-- /breadcrumbs line -->
+        
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>功能介绍</h5>
+            <p>
+                1、上传文件<br/>
+            </p>
+        </div>
+        
+        <form id="form" action="#" enctype="multipart/form-data" class="form-horizontal form-bordered">
+            
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>上传文件
+                    </h6>
+                </div>
+                <div class="panel-body">
+                    <div class="uploader" id="uniform-cover-file">
+                        <input id="file" type="file" accept="application/pdf, application/msword, *.docx" multiple="multiple" name="file" class="styled">
+                        <span class="filename" style="user-select: none;">未选择文件</span>
+                        <span class="action" style="user-select: none;">选择文件</span>
+                    </div>
+
+                    <div class="form-actions text-right">
+                        <input type="button" id="submitBtn" value="提 交" class="btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        
+        </form>
+
+        <div th:replace="inc/footer :: footer"></div>
+    
+    </div>
+    <!-- /page content -->
+</div>
+<!-- /page container -->
+<script>
+    $(document).on("click", "#submitBtn", function (e) {
+        var form = new FormData();
+        for(var i=0; i<$('#file')[0].files.length;i++){
+            form.append('file', $('#file')[0].files[i]);
+        }
+        // form.append("file",$("#file")[0].files[0]);
+        $.ajax({
+            url:'/spa/upload/uploadFile.json',
+            type:'post',
+            contentType:false,
+            processData: false,
+            data: form,
+            "success":function (responseData) {
+                console.log(responseData);
+                if (responseData.errorCode === 0) {
+                    alert("上传成功！");
+                } else {
+                    alert("上传失败！");
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

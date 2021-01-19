@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台管理系统</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    操作结果
+                    <!--
+                    <small>Headings, lists, code, pre etc. </small>
+                     -->
+                </h3>
+            </div>
+        </div>
+        <!-- /page header -->
+        <!-- Breadcrumbs line -->
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="index.html">首页</a></li>
+                <li class="active">操作结果</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+        <!-- /breadcrumbs line -->
+        <!-- Callout -->
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>操作结果</h5>
+            <p th:if="${#httpServletRequest.getAttribute('message')==null}"><strong>操作成功，现在将转入后续页面！</strong></p>
+            <p th:if="${#httpServletRequest.getAttribute('message')!=null}"><span class="mandatory" th:text="'操作失败，错误信息：'+${#httpServletRequest.getAttribute('message')}"></span></p>
+            <p>如果您的浏览器没有自动跳转，请点击 <a th:href="${#httpServletRequest.getAttribute('redirectUrl')}">这里</a></p>
+        </div>
+        <!-- /callout -->
+
+
+        <div th:replace="inc/footer :: footer"></div>
+
+    </div>
+    <!-- /page content -->
+</div>
+<!-- /page container -->
+</body>
+
+<script th:inline="javascript">
+    var redirectUrl = /*[[${redirectUrl}]]*/ "";
+    // var redirectUrl = "${#httpServletRequest.getAttribute('redirectUrl')}";
+    var delay = 3000;
+    if (redirectUrl != "") {
+        // if ([[${message}]] != "") {
+        //     delay = 5000;
+        // }
+        setTimeout("location.href='"+redirectUrl+"'", delay);
+    }
+</script>
+
+</html>

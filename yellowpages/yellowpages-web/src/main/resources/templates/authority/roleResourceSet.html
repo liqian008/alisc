@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>角色管理</title>
+
+	<div th:replace="inc/header :: base-source"></div>
+	<div th:replace="inc/header :: date"></div>
+
+	<style>
+		.row > div {
+			padding-top: 10px;
+		}
+
+	</style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+
+	<!-- Page container -->
+	<div class="page-container">
+
+		<div th:replace="inc/leftSidebar :: menu"></div>
+
+		<!-- Page content -->
+		<div class="page-content">
+			<!-- Page header -->
+			<div class="page-header">
+				<div class="page-title">
+					<h3>
+						关联角色资源
+						<!-- 
+						<small>Headings, lists, code, pre etc. </small>
+						 -->
+					</h3>
+				</div>
+			</div>
+			<!-- /page header -->
+			<!-- Breadcrumbs line -->
+			<div class="breadcrumb-line">
+				<ul class="breadcrumb">
+					<li><a th:href="@{/home/index}">首页</a></li>
+					<li class="active">关联角色资源</li>
+				</ul>
+				<div class="visible-xs breadcrumb-toggle">
+					<a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+						data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+				</div>
+			</div>
+			<!-- /breadcrumbs line -->
+			
+			<div class="callout callout-info fade in">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h5>功能介绍</h5>
+				<p>
+					1、为角色关联权限<br/>
+				</p>
+			</div>
+
+			<form id="validate" action="./saveRoleResource" method="post"  class="form-horizontal form-bordered">
+				
+				<!-- Basic inputs -->
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h6 class="panel-title">
+							<i class="icon-bubble4"></i>关联角色资源
+						</h6>
+					</div>
+					<div class="panel-body">
+						
+						<div class="form-group"> 
+							<label class="col-sm-2 control-label text-right">角色名: <span class="mandatory">*</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" name="roleName" id="roleName" th:value="${adminRole.roleName}" readonly="readonly"/>
+	                             <input type="hidden" name="roleId" id="roleId" th:value="${adminRole.id}"/>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-2 control-label text-right">关联权限资源: <span class="mandatory">*</span></label>
+							<div class="col-sm-10">
+								<div class="checkbox checkbox-info" th:each="loopResource,iterStat:${khSecurityRelationStructList}">
+									<hr style="width:30%;margin-left:0;" th:if="${loopResource.parentId}==0 and ${iterStat.index}>0"/>
+									<label th:style="${loopResource.parentId}==0?'font-weight:bold;':''">
+									<input class="styled"  type="checkbox" name="resourceIds" th:id="'resourceId_'+${loopResource.id}"
+										   th:value="${loopResource.id}" th:checked="${loopResource.check}==1" th:disabled="${loopResource.status== 0}"/>
+										<span th:text="${loopResource.name+'— 【状态: '+loopResource.statusDesc+'】'}"></span>
+									</label>
+								</div>
+							</div>
+						</div>
+						
+						<div class="form-actions text-right">
+							<input type="reset" value="重 置" class="btn btn-danger">
+							<input type="submit" value="提 交" class="btn btn-primary">
+						</div>
+					</div>
+				</div>
+				
+			</form>
+			<div th:replace="inc/footer :: footer"></div>
+		</div>
+		<!-- /page content -->
+	</div>
+	<!-- /page container -->
+</body>
+</html>

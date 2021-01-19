@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <!-- th:fragment 定义需要引入的代码块，该div包含的内容即为引用的公共内容 -->
+    <!--左上角品牌logo-->
+    <div th:fragment="headerLogo">
+        <a class="navbar-brand" th:href="@{/login}"></a>
+    </div>
+
+<script>
+    var hostName = location.hostname;
+    if('mgr.citywemedia.cn'==hostName){
+        document.getElementById("headerLogoImg").setAttribute("src", "@{/static}/images/logo_citywemedia.png");
+    }else{
+        document.getElementById("headerLogoImg").setAttribute("src", "@{/static}/images/logo.png");
+    }
+</script>
+</html>

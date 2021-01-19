@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>用户未授权</title>
+	<div th:replace="inc/header :: base-source"></div>
+<!--	<div th:replace="inc/header :: date"></div>-->
+<body class="sidebar-wide">
+	<h1 align="center" th:inline="text">[[${accessDenied}]]<a th:href="@{/passsport/logout}">注销</a></h1>
+</body>
+</html>

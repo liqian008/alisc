@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- th:fragment 定义需要引入的代码块，该div包含的内容即为引用的公共内容 -->
+
+<!-- 以下代码未完成，  thymeleaf 自定义变量比较复杂 -->
+<div th:fragment="paginator"
+    th:with="currentPage=${pageData.pageNo},totalPage=${pageData.totalPage},displayLimit=${5}">
+    <div th:with="midNum=${displayLimit / 2},beginNum=${currentPage} <= ${midNum} ? 1 : ${currentPage} - ${midNum} + 1">
+        <div
+            th:with=",endNum=${beginNum} + ${displayLimit} - 1,endNum = ${endNum} > ${totalPage} ?  ${totalPage}:${endNum}">
+            <div class='dataTables_info' id='dataTables_info'>
+                总计 <span th:text="${pageData.totalCount}"></span>条,&nbsp;第&nbsp;<span th:text="${currentPage}"></span>&nbsp;/&nbsp;<span th:text="${totalPage}"></span>&nbsp;页
+            </div>
+            <div class='dataTables_paginate paging_full_numbers' th:if="${totalPage} > 1">
+                <a href='' class='first paginate_button'>首页</a>
+                <a href='' class='previous paginate_button' th:if="${currentPage} > ${beginNum}"><</a>,
+                <span>
+                    <a href='' class='paginate_active'>44</a>
+                    <a href='' class='paginate_button'>33</a>
+                </span>
+                <a href='' class='next paginate_button' id='DataTables_Table_next' th:if="${currentPage} < ${endNum}">></a>
+                <a href='' class='last paginate_button'>尾页</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</html>

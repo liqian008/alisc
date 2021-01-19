@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>后台管理系统</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+<!--    <div th:replace="inc/header :: date"></div>-->
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+
+<!-- Page container -->
+<div class="page-container">
+    <!--    <jsp:include page="../inc/leftSidebar.jsp"></jsp:include>-->
+    <div th:replace="inc/leftSidebar :: menu"></div>
+    <!-- Page content -->
+    <div class="page-content">
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    欢迎页
+                    <!--
+                    <small>Headings, lists, code, pre etc. </small>
+                     -->
+                </h3>
+            </div>
+        </div>
+        <!-- /page header -->
+        <!-- Breadcrumbs line -->
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a href="index">首页</a></li>
+                <li class="active">欢迎页</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+        <!-- /breadcrumbs line -->
+        <!-- Callout -->
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>欢迎登录</h5>
+            <p>
+                您好, <span class="text-info" th:text="${session._session_user.nickname}"></span>, 欢迎登录后台管理系统！
+            </p>
+        </div>
+        <!-- /callout -->
+        <div th:replace="inc/footer :: footer"></div>
+
+    </div>
+    <div class="page-content">
+
+    </div>
+    <!-- /page content -->
+</div>
+<!-- /page container -->
+</body>
+</html>

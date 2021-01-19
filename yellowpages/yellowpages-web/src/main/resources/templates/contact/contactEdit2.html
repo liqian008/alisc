@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<!-- 左右样式的edit页面-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>联系人管理</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+<script src="//cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+<link href="//cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    联系人管理
+                </h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">联系人管理</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>功能介绍</h5>
+        </div>
+
+        <form id="validate" action="./save" method="post" class="form-horizontal form-bordered">
+
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>编辑联系人信息
+                    </h6>
+                </div>
+                <div class="panel-body">
+                    <input th:if="${contact} != null" id="id" name="id" type="hidden" th:value="${contact} ? ${contact.id}" />
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">姓名: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="name" id="name" th:value="${contact.name}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">手机号: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="mobile" id="mobile" th:value="${contact.mobile}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">描述: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="remark" id="remark" th:value="${contact.remark}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">联系电话: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="telphone" id="telphone" th:value="${contact.telphone}"/>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">邮箱: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="email" id="email" th:value="${contact.email}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">传真: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="fax" id="fax" th:value="${contact.fax}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">公司中文名: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="company" id="company" th:value="${contact.company}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">公司英文名: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="companyEn" id="companyEn" th:value="${contact.companyEn}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">公司网址: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="companyWebsite" id="companyWebsite" th:value="${contact.companyWebsite}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">职位: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="title" id="title" th:value="${contact.title}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">部门: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="department" id="department" th:value="${contact.department}"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">所在行业: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="industry" id="industry" th:value="${contact.industry}"/>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">地址: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" name="address" id="address" th:value="${contact.address}"/>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">状 态: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select class="form-control " id="status" name="status" th:field="${contact.status}">
+                                <option value="1" label="启用"></option>
+                                <option value="0" label="禁用"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions text-right">
+                        <input type="reset" value="重 置" class="btn btn-danger">
+                        <input type="submit" value="提 交" class="btn btn-primary">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div th:replace="inc/footer :: footer"></div>
+    </div>
+</div>
+<script>
+    $(function(){
+        $('#validate').bootstrapValidator({
+            fields: {
+                "name": {
+                    message: '联系人姓名不符合要求',
+                    validators: {
+                        notEmpty: {
+                            message: '联系人姓名不能为空'
+                        }
+                    }
+                }
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

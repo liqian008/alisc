@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>公司管理</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+
+    <style>
+        .row > div {
+            padding-top: 10px;
+        }
+
+    </style>
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    公司管理
+                </h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">公司管理</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>功能介绍</h5>
+<!--            <p th:text="'prefix'+ (2013+3) + ${name}">-->
+<!--            <p th:text="|${name}|">-->
+<!--            <p th:if="${session._session_user==null}">123</p>-->
+<!--            <p>Today is: <span th:text="${session._session_user}">2 November 2016</span>. #{ctx}</p>-->
+        </div>
+        <form id="validate" action="./paging" method="post">
+
+            <!-- 是否是导出操作 -->
+<!--            <input type="hidden" name="exportType" value="false">-->
+
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>条件筛选
+                    </h6>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>名称:</label><input type="text" name="name" placeholder="支持模糊匹配" class="form-control" th:value="${name}">
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <label>网站:</label><input type="text" name="website" placeholder="支持模糊匹配" class="form-control" th:value="${website}">
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="form-actions text-center">
+                        <input type="submit" value="查 询" class="btn btn-primary btn-sm">
+                        <input type="reset" value="重 置" class="btn btn-default btn-sm">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Table view -->
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-people"></i>公司管理
+                </h5>
+                <a href="./add"><span class="label label-danger pull-right">新增公司</span></a>
+
+                <a onclick="exportExcelHref('./export')"><span class="label label-primary pull-right">导出到Excel</span></a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped dataTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>公司名称</th>
+                        <th>地址</th>
+                        <th>网站</th>
+                        <th>最后更新时间</th>
+                        <th class="team-links">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${pagingData.dataList}">
+                        <td th:text="${item.id}"></td>
+                        <td th:text="${item.name}"></td>
+                        <td th:text="${item.address}"></td>
+                        <td>
+                            <a th:href="${item.website}">${item.website}</a>
+                        </td>
+                        <td th:title="'创建时间：'+${#dates.format(item.createTime, 'yyyy-MM-dd HH:mm:ss')}" th:text="${#dates.format(item.updateTime, 'yyyy-MM-dd HH:mm:ss')}">
+                        </td>
+                        <td class='text-center'>
+                            <div class="table-controls">
+                                <a th:href="@{/contact/edit(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="编 辑"><i class="icon-pencil3"></i></a>
+                                <a href="javascript:void(0)" th:onclick="'javascript:del(\''+${item.id}+'\')'"  class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="删除"><i class="icon-remove3"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="datatable-footer"></div>
+            </div>
+        </div>
+        <!-- /table view -->
+
+        <div th:replace="inc/footer :: footer"></div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var pagingData = /*[[${pagingData}]]*/ null;
+    var params = /*[[${params}]]*/ "";
+    getTablePaginatorDom(pagingData, pagingData.pageSize,'.datatable-footer',"./paging?"+params)
+
+    /**
+     * 根据 id 删除对应数据，执行成功之后会重新加载当前页
+     */
+    function del(id) {
+        if (confirm("删除后将无法恢复，确定要删除吗")) {
+            var url = './delete.json?id='+id;
+            sendDeleteRequest(url);
+        }
+    }
+
+</script>
+</body>
+</html>
