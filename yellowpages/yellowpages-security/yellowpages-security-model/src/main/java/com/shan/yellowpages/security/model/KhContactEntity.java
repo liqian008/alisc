@@ -130,6 +130,24 @@ public class KhContactEntity implements Serializable {
     private Short nationality;
 
     /**
+     * 国籍名称
+     * 表字段 : kh_contact.nationality_name
+     */
+    private String nationalityName;
+
+    /**
+     * 省名称
+     * 表字段 : kh_contact.province_name
+     */
+    private String provinceName;
+
+    /**
+     * 市名称
+     * 表字段 : kh_contact.city_name
+     */
+    private String cityName;
+
+    /**
      * 性别，1男2女0未知
      * 表字段 : kh_contact.gender
      */
@@ -536,6 +554,60 @@ public class KhContactEntity implements Serializable {
     }
 
     /**
+     * 获取 国籍名称 字段:kh_contact.nationality_name
+     *
+     * @return kh_contact.nationality_name, 国籍名称
+     */
+    public String getNationalityName() {
+        return nationalityName;
+    }
+
+    /**
+     * 设置 国籍名称 字段:kh_contact.nationality_name
+     *
+     * @param nationalityName the value for kh_contact.nationality_name, 国籍名称
+     */
+    public void setNationalityName(String nationalityName) {
+        this.nationalityName = nationalityName;
+    }
+
+    /**
+     * 获取 省名称 字段:kh_contact.province_name
+     *
+     * @return kh_contact.province_name, 省名称
+     */
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    /**
+     * 设置 省名称 字段:kh_contact.province_name
+     *
+     * @param provinceName the value for kh_contact.province_name, 省名称
+     */
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+
+    /**
+     * 获取 市名称 字段:kh_contact.city_name
+     *
+     * @return kh_contact.city_name, 市名称
+     */
+    public String getCityName() {
+        return cityName;
+    }
+
+    /**
+     * 设置 市名称 字段:kh_contact.city_name
+     *
+     * @param cityName the value for kh_contact.city_name, 市名称
+     */
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    /**
      * 获取 性别，1男2女0未知 字段:kh_contact.gender
      *
      * @return kh_contact.gender, 性别，1男2女0未知
@@ -672,6 +744,9 @@ public class KhContactEntity implements Serializable {
         sb.append(", postcode=").append(postcode);
         sb.append(", industry=").append(industry);
         sb.append(", nationality=").append(nationality);
+        sb.append(", nationalityName=").append(nationalityName);
+        sb.append(", provinceName=").append(provinceName);
+        sb.append(", cityName=").append(cityName);
         sb.append(", gender=").append(gender);
         sb.append(", identity=").append(identity);
         sb.append(", lastModUid=").append(lastModUid);

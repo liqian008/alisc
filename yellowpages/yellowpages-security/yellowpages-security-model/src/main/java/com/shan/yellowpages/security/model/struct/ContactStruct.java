@@ -149,6 +149,14 @@ public class ContactStruct implements Serializable {
      */
     private Short nationality;
 
+
+    private String nationalityName;
+
+    private String provinceName;
+
+    private String cityName;
+
+
     /**
      * 性别，1男2女0未知
      * 表字段 : kh_contact.gender
@@ -233,6 +241,9 @@ public class ContactStruct implements Serializable {
             result.setResume(entity.getResume());
             result.setGender(entity.getGender());
             result.setNationality(entity.getNationality());
+            result.setNationalityName(entity.getNationalityName());
+            result.setProvinceName(entity.getProvinceName());
+            result.setCityName(entity.getCityName());
             result.setStatus(entity.getStatus());
             result.setCreateTime(entity.getCreateTime());
             result.setUpdateTime(entity.getUpdateTime());

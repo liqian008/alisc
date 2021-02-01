@@ -22,7 +22,6 @@ public class YellowPagesApplication implements CommandLineRunner {
 	private ExcelUtil excelUtil;
 
 	public static void main(String[] args) {
-
 		ApplicationContext applicationContext = SpringApplication.run(YellowPagesApplication.class, args);
 		log.debug("[main]started!");
 	}

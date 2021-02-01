@@ -8,6 +8,7 @@ import com.shan.yellowpages.security.service.IKhCompanyEntityService;
 import com.shan.yellowpages.security.service.IKhContactEntityService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -28,7 +29,8 @@ import java.util.*;
 @Component
 public class ExcelUtil implements InitializingBean {
 
-	private static final String FILE_PATH = "/Users/bruce/Documents/技术工作/shan/Shan_Data_2020.xlsx";
+	private static final String FILE_PATH = "/Users/bruce/Downloads/baidu_pan/Shan_Data_20210125/小韩统一格式20.xlsx";
+//	private static final String FILE_PATH = "/Users/bruce/Documents/技术工作/shan/Shan_Data_2020.xlsx";
 //	private static final String FILE_PATH = "/Users/bruce/Documents/技术工作/shan/Shan_Data_2020_test.xlsx";
 
 	@Autowired
@@ -80,12 +82,18 @@ public class ExcelUtil implements InitializingBean {
 		instance.importExcel();
 	}
 
+	/**
+	 * excel导入
+	 * @return
+	 * @throws Exception
+	 */
 	public List<KhContactEntity> importExcel() throws Exception{
 
 		int amountSucceed = 0;
 		int amountFailed = 0;
 
-		XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(new File(FILE_PATH)));
+		File file = new File(FILE_PATH);
+		XSSFWorkbook workbook = new XSSFWorkbook(new FileInputStream(file));
 //		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(FILE_PATH)));
 		XSSFSheet sheet = null;
 //		HSSFSheet sheet = null;
@@ -112,9 +120,8 @@ public class ExcelUtil implements InitializingBean {
 
 					//String companyAddress = null;
 
+					int offset = -1;
 					for(int k = 0;k < row.getLastCellNum();k++){
-
-
 
 						if(null!=row.getCell(k)){
 //							if(k==0){
@@ -127,78 +134,102 @@ public class ExcelUtil implements InitializingBean {
 //							}
 
 							Cell cell = row.getCell(k);
+
+							//设置单元格类型
+							cell.setCellType(CellType.STRING);
+
 							//检索/备注/数据来源、联系记录
-							if(k==1){
+							if(k== offset + 1){
 								//cell->string
 								contact.setRemark(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//姓名
-							if(k==2){
+							if(k==offset + 2){
 								contact.setName(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//公司名称
-							if(k==3){
+							if(k==offset + 3){
 								companyName = StringUtils.trim(cell.getStringCellValue());
 								contact.setCompany(companyName);
 
 							}
 
 							//职位
-							if(k==4){
+							if(k==offset + 4){
 								contact.setTitle(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//部门
-							if(k==5){
-								contact.setDepartment(StringUtils.trim(cell.getStringCellValue()));
+							if(k==offset + 5){
+
+//								switch (cell.getCellType()) {
+//								case HSSFCell.CELL_TYPE_NUMERIC: // 数字
+//									System.out.print(cell.getNumericCellValue()
+//											+ "   ");
+
+									String department = StringUtils.trim(cell.getStringCellValue());
+								contact.setDepartment(department);
 							}
 
 							//手机
-							if(k==6){
+							if(k==offset + 6){
 								contact.setMobile(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//电话
-							if(k==7){
+							if(k==offset + 7){
 								contact.setTelphone(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//邮箱
-							if(k==8){
+							if(k==offset + 8){
 								contact.setEmail(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//传真
-							if(k==9){
+							if(k==offset + 9){
 								contact.setFax(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//地址/邮编
-							if(k==10){
+							if(k==offset + 10){
 								contact.setAddress(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//公司网址
-							if(k==11){
+							if(k==offset + 11){
 								companyWebsite = StringUtils.trim(cell.getStringCellValue());
 								contact.setCompanyWebsite(companyWebsite);
-
-
 //								khCompanyEntity.setWebsite(website);
 							}
 
 							//所属行业/研究方向
-							if(k==12){
+							if(k==offset + 12){
 								contact.setIndustry(StringUtils.trim(cell.getStringCellValue()));
 							}
 
 							//公司英文名称
-							if(k==13){
+							if(k==offset + 13){
 								companyEnName  = StringUtils.trim(cell.getStringCellValue());
 								contact.setCompanyEn(companyEnName);
 //								khCompanyEntity.setEnName(companyEnName);
+							}
+
+							//国籍名称
+							if(k==offset + 14){
+								contact.setCityName(StringUtils.trim(cell.getStringCellValue()));
+							}
+
+							//省名称
+							if(k==offset + 15){
+								contact.setProvinceName(StringUtils.trim(cell.getStringCellValue()));
+							}
+
+							//市名称
+							if(k==offset + 16){
+								contact.setNationalityName(StringUtils.trim(cell.getStringCellValue()));
 							}
 						}
 					}
@@ -226,7 +257,7 @@ public class ExcelUtil implements InitializingBean {
 						khContactEntityService.save(contact);
 						amountSucceed ++;
 					}catch(Exception e){
-						System.err.println("row ："+j+  "数据异常");
+						System.err.println(file.getName() + ", row ："+j+  "数据异常");
 						errorLineMap.put(j, e.getMessage());
 						e.printStackTrace();
 						amountFailed ++;
@@ -237,10 +268,10 @@ public class ExcelUtil implements InitializingBean {
 //					list.add(contact);
 				}
 			}
-			System.err.println("读取sheet表："+ workbook.getSheetName(i) + "完成");
+			System.err.println(file.getName() + ", 读取sheet表："+ workbook.getSheetName(i) + "完成");
 //			return list;
 		}
-		System.err.println("读取成功："+ amountSucceed +"，读取失败："+ amountFailed +", map: "+ errorLineMap);
+		System.err.println(file.getName() + ", 读取成功："+ amountSucceed +"，读取失败："+ amountFailed +", map: "+ errorLineMap);
 		return null;
 	}
 
