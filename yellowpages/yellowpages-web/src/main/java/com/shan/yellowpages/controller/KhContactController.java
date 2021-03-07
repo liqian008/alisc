@@ -300,6 +300,7 @@ public class KhContactController extends AbstractBaseController implements Initi
 			model.addAttribute("department", department);
 		}
 
+		criteria.setOrderByClause("  name asc");
 
 		return criteria;
 	}

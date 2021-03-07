@@ -177,7 +177,7 @@
 
 <!--                <a onclick="exportExcel('./export')" th:if="${exportEnable}==true and ${pagingData.totalCount}<1000"><span class="label label-primary pull-right">1导出到Excel</span></a>-->
 
-                <a data-toggle="modal" role="button" href="#export_form_modal" th:if="${exportEnable}==true and ${pagingData.totalCount}<1000">
+                <a data-toggle="modal" role="button" href="#export_form_modal" th:if="${exportEnable}==true and ${pagingData.totalCount}<5000">
                     <span class="label label-primary pull-right">导出到Excel</span>
                 </a>
 

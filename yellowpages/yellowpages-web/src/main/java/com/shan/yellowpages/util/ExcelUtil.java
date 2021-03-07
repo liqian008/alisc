@@ -29,8 +29,8 @@ import java.util.*;
 @Component
 public class ExcelUtil implements InitializingBean {
 
-	private static final String FILE_PATH = "/Users/bruce/Downloads/baidu_pan/Shan_Data_20210125/小韩统一格式20.xlsx";
-//	private static final String FILE_PATH = "/Users/bruce/Documents/技术工作/shan/Shan_Data_2020.xlsx";
+//	private static final String FILE_PATH = "/Users/bruce/Downloads/baidu_pan/Shan_Data_20210125/小韩统一格式20.xlsx";
+	private static final String FILE_PATH = "/Users/bruce/Documents/技术工作/shan/学会会员2-已整理.xlsx";
 //	private static final String FILE_PATH = "/Users/bruce/Documents/技术工作/shan/Shan_Data_2020_test.xlsx";
 
 	@Autowired
@@ -207,7 +207,7 @@ public class ExcelUtil implements InitializingBean {
 
 							//所属行业/研究方向
 							if(k==offset + 12){
-								contact.setIndustry(StringUtils.trim(cell.getStringCellValue()));
+								contact.setIndustry(StringUtils.substring(StringUtils.trim(cell.getStringCellValue()), 0, 2000));
 							}
 
 							//公司英文名称
