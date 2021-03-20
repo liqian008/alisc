@@ -176,12 +176,12 @@
                 </includes>
             </resource>
 
-<!--            <resource>-->
-<!--                <directory>src/main/static</directory>-->
-<!--                <includes>-->
-<!--                    <include>**/*.*</include>-->
-<!--                </includes>-->
-<!--            </resource>-->
+            <resource>
+                <directory>src/main/static</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
         </resources>
 
 

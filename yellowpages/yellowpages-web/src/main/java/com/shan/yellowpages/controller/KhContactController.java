@@ -125,6 +125,39 @@ public class KhContactController extends AbstractBaseController implements Initi
 
 		contact.setStatus(StatusEnum.ENABLE.getStatus());
 		model.addAttribute("contact", contact);
+		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
+			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
+		}
+		return "contact/contactEdit";
+	}
+
+
+	@RequestMapping("/clone")
+	public String clone(Model model, int id, HttpServletRequest req) {
+		String servletPath = req.getRequestURI();
+		model.addAttribute("servletPath", servletPath);
+
+		KhContactEntity contact = khContactEntityService.loadById(id);
+
+		contact.setId(null);
+		contact.setName("姓名");
+		contact.setCreateTime(null);
+		contact.setUpdateTime(null);
+		model.addAttribute("contact", contact);
+
+		boolean clone = true;
+		model.addAttribute("clone", clone);
+//		if(clone){
+//			model.addAttribute("calloutStyle", "callout-danger");
+//		}else{
+//			model.addAttribute("calloutStyle", "callout-info");
+//		}
+
+
+
+		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
+			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
+		}
 		return "contact/contactEdit";
 	}
 
@@ -136,8 +169,8 @@ public class KhContactController extends AbstractBaseController implements Initi
 		KhContactEntity contact = khContactEntityService.loadById(id);
 		model.addAttribute("contact", contact);
 
-		if(KhContactEntity.isValid(contact)){
-			//编辑
+		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
+			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
 		}
 		return "contact/contactEdit";
 	}
@@ -149,6 +182,9 @@ public class KhContactController extends AbstractBaseController implements Initi
 		model.addAttribute("servletPath", servletPath);
 
 		KhContactEntity contact = khContactEntityService.loadById(id);
+		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
+			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
+		}
 		model.addAttribute("contact", contact);
 		return "contact/contactInfo";
 	}
@@ -182,6 +218,11 @@ public class KhContactController extends AbstractBaseController implements Initi
 			contact.setCreateTime(currentTime);
 			result = khContactEntityService.save(contact);
 		}
+
+		if(StringUtils.isBlank(contact.getAvatar())){
+			contact.setAvatar(null);
+		}
+
 		req.setAttribute("redirectUrl", "./paging");
 		return "forward:/home/operationRedirect";
 	}

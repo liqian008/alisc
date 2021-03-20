@@ -29,7 +29,7 @@ public class KhResponseResult<T> implements Serializable {
 	public final static KhResponseResult ERROR_EMPTY_ENTITY = KhResponseResult.buildFailedResult(IKhErrorCode.SYSTEM_ERROR);
 
 	/** 成功的errorcode */
-	private static final int ERRORCODE_SUCCESS = 0X00;
+	private static final int ERRORCODE_SUCCESS = 0;
 
 	/** 错误码：成功为0，失败时需传入特定的错误码 */
 	private int errorCode;

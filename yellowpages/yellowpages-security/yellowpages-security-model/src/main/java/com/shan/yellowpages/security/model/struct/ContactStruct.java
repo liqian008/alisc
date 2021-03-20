@@ -202,7 +202,7 @@ public class ContactStruct implements Serializable {
     }
 
     /** 默认头像 */
-    private static final String AVATAR_DEFAULT = "/static/images/demo/users/default_avatar_2.jpg";
+    public static final String AVATAR_DEFAULT = "/static/images/demo/users/default_avatar_2.jpg";
 
     /**
      *

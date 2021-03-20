@@ -31,7 +31,7 @@ public class KhInterceptorUtil {
     public static AuthorizeConfig.AuthorizeStrategy getAuthorizeType(HttpServletRequest request,
             HandlerMethod handlerMethod) throws Exception {
         logger.debug("[getAuthorizeType]entering,  requestUri:{}, handlerMethod:{}", request.getRequestURI(),
-                handlerMethod.hashCode());
+                handlerMethod.getMethod().getName());
 
         // 先从缓存中获取
         AuthorizeConfig.AuthorizeStrategy result = authorizeStrategyMap.get(handlerMethod);

@@ -237,6 +237,9 @@
                                 <a th:href="@{/contact/edit(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="编 辑">
                                     <i class="icon-pencil3"></i>
                                 </a>
+                                <a th:href="@{/contact/clone(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="复 制">
+                                    <i class="icon-pencil3"></i>
+                                </a>
 <!--                                <a th:href="@{/contact/roleResourceSet(roleId=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="关联资源"><i class="icon-tree3"></i></a>-->
 <!--                                <a href="javascript:void(0)" th:onclick="'javascript:del(\''+${item.id}+'\')'"  class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="删除"><i class="icon-remove3"></i></a>-->
                             </div>
@@ -264,6 +267,17 @@
                 <!-- Form inside modal -->
                 <form action="visuals.html#" role="form">
                     <div class="modal-body with-padding">
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>头像</label><br/>
+                                    <img id="avatarPreview" th:src="${item.avatar}" width="150px"/>
+                                </div>
+                            </div>
+                        </div>
+
 
 
                         <div class="form-group">

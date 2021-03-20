@@ -49,8 +49,8 @@ spring:
 
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 50MB
+      max-request-size: 50MB
 
   mvc:
     static-path-pattern: /static/**
@@ -63,5 +63,12 @@ spring:
 #logging:
 #  level:
 #    com.shan.yellowpages: debug
+
+
+upload:
+  path:
+    local: /opt/docker_data/nginx/html/yellowpages/static/upload
+  url:
+    suffix: http://data.jizei.wang/static/upload/
 
 log.path: /opt/springboot/yellowpages/logs

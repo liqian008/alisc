@@ -46,9 +46,9 @@
             </div>
         </div>
 
-        <div class="callout callout-info fade in">
+        <div class="callout fade in" th:classappend="${clone}?'callout-danger':'callout-info'">
             <button type="button" class="close" data-dismiss="alert">×</button>
-            <h5>功能介绍</h5>
+            <h5 th:text="${clone}?'复制联系人信息':'编辑联系人信息'"></h5>
         </div>
 
         <form id="validate" action="./save" method="post" class="form-horizontal">
@@ -66,22 +66,30 @@
                 <div class="panel-body">
 
                     <input th:if="${contact} != null" id="id" name="id" type="hidden" th:value="${contact} ? ${contact.id}" />
+                    <input th:if="${contact} != null" id="avatar" name="avatar" type="hidden"/>
 
-<!--                    <div class="form-group">-->
+                    <!--                    <div class="form-group">-->
 <!--                        <div class="col-md-4">-->
 <!--                            <img alt="" src="/static/images/demo/users/default_avatar.jpg" width="120px">-->
 <!--                        </div>-->
 <!--                    </div>-->
 
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>头像</label><br/>
+                            <img id="avatarPreview" th:src="${contact.avatar}" width="150px"/>
+                            <input type="file" class="styled form-control" id="avatarUploader" onchange="changeAvatar(this)" accept="*.gif, *.jpeg, *.png, *.jpg, *.bmp">
+                            <span class="help-block">支持格式: gif, png, jpg. 上限2M</span>
+                        </div>
+                    </div>
+
 <!--                    <div class="form-group">-->
-<!--                        <div class="col-md-4">-->
-<!--                            <label>修改头像:</label>-->
-<!--                            <input type="file" class="styled form-control" id="report-screenshot">-->
-<!--                            <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb</span>-->
+
+<!--                        <div class="col-sm-4">-->
+<!--                            <label class="control-label">头像</label>-->
+<!--                            <input type="text" class="form-control" name="name" id="avatar" th:value="${contact.avatar}"/>-->
 <!--                        </div>-->
 <!--                    </div>-->
-
-
 
                     <div class="form-group">
 
@@ -110,7 +118,7 @@
                         <div class="col-sm-10">
                             <label class="control-label">个人简介<span class="mandatory">*</span>
                             </label>
-                            <textarea rows="3" cols="5" class="elastic form-control" id="resume" name="resume" placeholder="个人简介" th:text="${contact.resume}"></textarea>
+                            <textarea rows="3" cols="5" class="elastic form-control" id="resume" name="resume" placeholder="个人简介" th:text="${contact.resume}" maxlength="2000"></textarea>
                         </div>
                     </div>
 
@@ -118,7 +126,7 @@
                         <div class="col-sm-10">
                             <label class="control-label">备注<span class="mandatory">*</span>
                             </label>
-                            <textarea rows="3" cols="5" class="elastic form-control" id="remark" name="remark" placeholder="备注" th:text="${contact.remark}"></textarea>
+                            <textarea rows="3" cols="5" class="elastic form-control" id="remark" name="remark" placeholder="备注" th:text="${contact.remark}" maxlength="500"></textarea>
                         </div>
                     </div>
 
@@ -260,6 +268,59 @@
             }
         })
     });
+
+
+    function changeAvatar(file) {
+        console.log(file.value);
+
+        var formData = new FormData();
+        formData.append('file', $('#avatarUploader')[0].files[0]); // 固定格式
+
+        $.ajax({
+            url: "/upload/uploadFile.json",														//后台接收数据地址
+            //headers:{'Content-Type':'multipart/form-data'},//加上这个报错
+            data:formData,
+            type: "POST",
+            dataType: "json",
+            cache: false,			//上传文件无需缓存
+            processData: false,		//用于对data参数进行序列化处理 这里必须false
+            contentType: false,
+            success:function(res){
+                var result=res;
+                var errorCode=result.errorCode;
+                if (errorCode==0){
+                    // alert("图片上传成功！");
+                    $("#avatar").val(result.data.resUrl);
+                    $("#avatarPreview").attr("src", result.data.resUrl);
+                }else{
+                    alert(result.errorMessage);
+                }
+            },
+            failure: function (res) {
+                // alert("图片上传失败！");
+                alert(result.errorMessage);
+            }
+        })
+
+
+        /**
+         * 文件预览
+         */
+        // var url = null;
+        // var fileObj = document.getElementById("avatarUploader").files[0];
+        // if (window.createObjcectURL != undefined) {
+        //     url = window.createOjcectURL(fileObj);
+        // } else if (window.URL != undefined) {
+        //     url = window.URL.createObjectURL(fileObj);
+        // } else if (window.webkitURL != undefined) {
+        //     url = window.webkitURL.createObjectURL(fileObj);
+        // }
+        // $("#avatarPreview").attr("src", url);
+
+        // $("#avatar").val(file.value);
+        // $("#avatarPreview").attr("src", "file://C:/fakepath/李乾_学位证.jpeg");
+        // $("#avatarPreview").attr("src", "file://"+file.value);
+    }
 
     // $(function(){
     //
