@@ -65,7 +65,9 @@ public class KhContactEntityServiceImpl implements IKhContactEntityService, Init
 	 */
 	@Override
 	public KhPagingResult<ContactStruct> pagingDtoByCriteria(int pageNo, int pageSize, KhContactEntityCriteria criteria) {
-		logger.debug("[" + this.getClass().getName() + "][pagingDtoByCriteria]entering, pageNo:{},pageSize:{},criteria:{}", pageNo, pageSize, criteria);
+		logger.debug("[" + this.getClass().getName() + "][pagingDtoByCriteria]entering, pageNo:{}, pageSize:{}, criteria:{}", pageNo, pageSize, criteria);
+
+
 		KhPagingResult<KhContactEntity> pagingResult = pagingByCriteria(pageNo, pageSize, criteria);
 
 		if(KhPagingResult.isValid(pagingResult) &&  KhPagingResult.isNotEmpty(pagingResult)){
@@ -85,6 +87,59 @@ public class KhContactEntityServiceImpl implements IKhContactEntityService, Init
 				dtoDataList.add(contactDto);
 			}
 			return new KhPagingResult<ContactStruct>(pagingResult.getPageNo(),  pagingResult.getPageSize(),  pagingResult.getTotalCount(), dtoDataList);
+
+		}
+		return KhPagingResult.EMPTY_PAGING_RESULT;
+	}
+
+
+	/**
+	 * 分页查询
+	 *
+	 * @param pageNo 当前页数
+	 * @param pageSize 分页大小
+	 * @param activityId
+	 * @param contactName
+	 * @param criteria 条件查询辅助类
+	 * @return 分页数据对象
+	 */
+	@Override
+	public KhPagingResult<ContactStruct> pagingDtoByActivity(int pageNo, int pageSize, int activityId, String contactName, KhContactEntityCriteria criteria) {
+		logger.debug("[" + this.getClass().getName() + "][pagingDtoByActivity]entering, pageNo:{},pageSize:{},criteria:{}", pageNo, pageSize, criteria);
+
+		Integer count = khContactEntityMapper.test();
+//		Integer count = khContactEntityMapper.countByActivity(activityId, contactName, criteria);
+		count = count==null?0:count;
+
+		// 确保pageNo合法
+		pageNo = pageNo <= 0 ? 1 : pageNo;
+		// 确保pageSize合法
+		pageSize = verifyPageSize(pageSize);
+
+		int offset = (pageNo - 1) * pageSize;
+
+		criteria.setLimitOffset(offset);
+		criteria.setLimitRows(pageSize);
+
+		List<KhContactEntity> dataList= khContactEntityMapper.queryByActivity(activityId, contactName, criteria);
+
+		KhPagingResult<KhContactEntity> pagingResult = new KhPagingResult(pageNo, pageSize, count, dataList);
+
+		if(KhPagingResult.isValid(pagingResult) &&  KhPagingResult.isNotEmpty(pagingResult)){
+			List<ContactStruct> dtoDataList = new ArrayList<>();
+			for(KhContactEntity loopContactEntity: dataList){
+				ContactStruct contactDto = ContactStruct.convert(loopContactEntity);
+				Integer lastModUid = loopContactEntity.getLastModUid();
+				if(lastModUid!=null){
+					AdminUserStruct lastModifyUser = khAdminUserEntityService.loadCachedDtoById(lastModUid);
+					if(AdminUserStruct.isValid(lastModifyUser)){
+						//最后操作人
+						contactDto.setLastModifyUser(lastModifyUser);
+					}
+				}
+				dtoDataList.add(contactDto);
+			}
+			return new KhPagingResult<>(pagingResult.getPageNo(), pagingResult.getPageSize(), pagingResult.getTotalCount(), dtoDataList);
 
 		}
 		return KhPagingResult.EMPTY_PAGING_RESULT;

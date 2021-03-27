@@ -25,4 +25,19 @@ public interface IKhContactEntityService extends IKhBaseService<KhContactEntity,
 	 */
 	KhPagingResult<ContactStruct> pagingDtoByCriteria(int pageNo, int pageSize, KhContactEntityCriteria criteria) ;
 
+
+	/**
+	 * 分页查询dto
+	 *
+	 * @param pageNo 当前页数
+	 * @param pageSize 分页大小
+	 * @param activityId
+	 * @param criteria 条件查询辅助类
+	 * @return 分页数据对象
+	 */
+	KhPagingResult<ContactStruct> pagingDtoByActivity(int pageNo, int pageSize, int activityId, String contactName,
+			KhContactEntityCriteria criteria) ;
+
+
+
 }

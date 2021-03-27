@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.shan.yellowpages.security.dao.mapper.KhActivityEntityMapper">
-  <resultMap id="BaseResultMap" type="com.shan.yellowpages.security.model.KhActivityEntity">
+<mapper namespace="com.shan.yellowpages.security.dao.mapper.KhActivityContactRelationEntityMapper">
+  <resultMap id="BaseResultMap" type="com.shan.yellowpages.security.model.KhActivityContactRelationEntity">
     <!--
     @mbg.generated
     -->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
-    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="activity_id" jdbcType="INTEGER" property="activityId" />
+    <result column="contact_id" jdbcType="INTEGER" property="contactId" />
     <result column="last_mod_uid" jdbcType="INTEGER" property="lastModUid" />
     <result column="status" jdbcType="SMALLINT" property="status" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -83,9 +81,9 @@
     <!--
     @mbg.generated
     -->
-    id, name, description, start_time, end_time, last_mod_uid, status, create_time, update_time
+    id, activity_id, contact_id, last_mod_uid, status, create_time, update_time
   </sql>
-  <select id="selectByExample" parameterType="com.shan.yellowpages.security.model.KhActivityEntityCriteria" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntityCriteria" resultMap="BaseResultMap">
     <!--
     @mbg.generated
     -->
@@ -94,7 +92,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from kh_activity
+    from kh_activity_contact_relation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -115,58 +113,50 @@
     -->
     select 
     <include refid="Base_Column_List" />
-    from kh_activity
+    from kh_activity_contact_relation
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
     @mbg.generated
     -->
-    delete from kh_activity
+    delete from kh_activity_contact_relation
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.shan.yellowpages.security.model.KhActivityEntityCriteria">
+  <delete id="deleteByExample" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntityCriteria">
     <!--
     @mbg.generated
     -->
-    delete from kh_activity
+    delete from kh_activity_contact_relation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityEntity" useGeneratedKeys="true">
+  <insert id="insert" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity" useGeneratedKeys="true">
     <!--
     @mbg.generated
     -->
-    insert into kh_activity (id, name, description, 
-      start_time, end_time, last_mod_uid, 
-      status, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{lastModUid,jdbcType=INTEGER}, 
-      #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+    insert into kh_activity_contact_relation (id, activity_id, contact_id, 
+      last_mod_uid, status, create_time, 
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{contactId,jdbcType=INTEGER}, 
+      #{lastModUid,jdbcType=INTEGER}, #{status,jdbcType=SMALLINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityEntity" useGeneratedKeys="true">
+  <insert id="insertSelective" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity" useGeneratedKeys="true">
     <!--
     @mbg.generated
     -->
-    insert into kh_activity
+    insert into kh_activity_contact_relation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="activityId != null">
+        activity_id,
       </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="startTime != null">
-        start_time,
-      </if>
-      <if test="endTime != null">
-        end_time,
+      <if test="contactId != null">
+        contact_id,
       </if>
       <if test="lastModUid != null">
         last_mod_uid,
@@ -185,17 +175,11 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="activityId != null">
+        #{activityId,jdbcType=INTEGER},
       </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        #{endTime,jdbcType=TIMESTAMP},
+      <if test="contactId != null">
+        #{contactId,jdbcType=INTEGER},
       </if>
       <if test="lastModUid != null">
         #{lastModUid,jdbcType=INTEGER},
@@ -211,11 +195,11 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.shan.yellowpages.security.model.KhActivityEntityCriteria" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntityCriteria" resultType="java.lang.Integer">
     <!--
     @mbg.generated
     -->
-    select count(*) from kh_activity
+    select count(*) from kh_activity_contact_relation
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -224,22 +208,16 @@
     <!--
     @mbg.generated
     -->
-    update kh_activity
+    update kh_activity_contact_relation
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.activityId != null">
+        activity_id = #{record.activityId,jdbcType=INTEGER},
       </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
-      <if test="record.startTime != null">
-        start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.endTime != null">
-        end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      <if test="record.contactId != null">
+        contact_id = #{record.contactId,jdbcType=INTEGER},
       </if>
       <if test="record.lastModUid != null">
         last_mod_uid = #{record.lastModUid,jdbcType=INTEGER},
@@ -262,12 +240,10 @@
     <!--
     @mbg.generated
     -->
-    update kh_activity
+    update kh_activity_contact_relation
     set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIMESTAMP},
-      end_time = #{record.endTime,jdbcType=TIMESTAMP},
+      activity_id = #{record.activityId,jdbcType=INTEGER},
+      contact_id = #{record.contactId,jdbcType=INTEGER},
       last_mod_uid = #{record.lastModUid,jdbcType=INTEGER},
       status = #{record.status,jdbcType=SMALLINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -276,23 +252,17 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.shan.yellowpages.security.model.KhActivityEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity">
     <!--
     @mbg.generated
     -->
-    update kh_activity
+    update kh_activity_contact_relation
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="activityId != null">
+        activity_id = #{activityId,jdbcType=INTEGER},
       </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null">
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime != null">
-        end_time = #{endTime,jdbcType=TIMESTAMP},
+      <if test="contactId != null">
+        contact_id = #{contactId,jdbcType=INTEGER},
       </if>
       <if test="lastModUid != null">
         last_mod_uid = #{lastModUid,jdbcType=INTEGER},
@@ -309,15 +279,13 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.shan.yellowpages.security.model.KhActivityEntity">
+  <update id="updateByPrimaryKey" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity">
     <!--
     @mbg.generated
     -->
-    update kh_activity
-    set name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
+    update kh_activity_contact_relation
+    set activity_id = #{activityId,jdbcType=INTEGER},
+      contact_id = #{contactId,jdbcType=INTEGER},
       last_mod_uid = #{lastModUid,jdbcType=INTEGER},
       status = #{status,jdbcType=SMALLINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -325,22 +293,16 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="insertBatchSelective" keyProperty="id" parameterType="java.util.List" useGeneratedKeys="true">
-    insert into kh_activity
+    insert into kh_activity_contact_relation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="list[0].id!=null">
         id,
       </if>
-      <if test="list[0].name!=null">
-        name,
+      <if test="list[0].activityId!=null">
+        activity_id,
       </if>
-      <if test="list[0].description!=null">
-        description,
-      </if>
-      <if test="list[0].startTime!=null">
-        start_time,
-      </if>
-      <if test="list[0].endTime!=null">
-        end_time,
+      <if test="list[0].contactId!=null">
+        contact_id,
       </if>
       <if test="list[0].lastModUid!=null">
         last_mod_uid,
@@ -361,17 +323,11 @@
         <if test="item.id!=null">
           #{item.id,jdbcType=INTEGER},
         </if>
-        <if test="item.name!=null">
-          #{item.name,jdbcType=VARCHAR},
+        <if test="item.activityId!=null">
+          #{item.activityId,jdbcType=INTEGER},
         </if>
-        <if test="item.description!=null">
-          #{item.description,jdbcType=VARCHAR},
-        </if>
-        <if test="item.startTime!=null">
-          #{item.startTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="item.endTime!=null">
-          #{item.endTime,jdbcType=TIMESTAMP},
+        <if test="item.contactId!=null">
+          #{item.contactId,jdbcType=INTEGER},
         </if>
         <if test="item.lastModUid!=null">
           #{item.lastModUid,jdbcType=INTEGER},
@@ -390,19 +346,13 @@
   </insert>
   <update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
     <foreach collection="list" index="index" item="item" separator=";">
-      update kh_activity
+      update kh_activity_contact_relation
       <set>
-        <if test="item.name!=null">
-          name=#{item.name,jdbcType=VARCHAR},
+        <if test="item.activityId!=null">
+          activity_id=#{item.activityId,jdbcType=INTEGER},
         </if>
-        <if test="item.description!=null">
-          description=#{item.description,jdbcType=VARCHAR},
-        </if>
-        <if test="item.startTime!=null">
-          start_time=#{item.startTime,jdbcType=TIMESTAMP},
-        </if>
-        <if test="item.endTime!=null">
-          end_time=#{item.endTime,jdbcType=TIMESTAMP},
+        <if test="item.contactId!=null">
+          contact_id=#{item.contactId,jdbcType=INTEGER},
         </if>
         <if test="item.lastModUid!=null">
           last_mod_uid=#{item.lastModUid,jdbcType=INTEGER},
@@ -421,26 +371,20 @@
       id = #{item.id,jdbcType=INTEGER}
     </foreach>
   </update>
-  <insert id="insertIgnore" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityEntity" useGeneratedKeys="true">
-    insert ignore kh_activity (id,name,description,start_time,end_time,last_mod_uid,status,create_time,update_time )  values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{startTime,jdbcType=TIMESTAMP},#{endTime,jdbcType=TIMESTAMP},#{lastModUid,jdbcType=INTEGER},#{status,jdbcType=SMALLINT},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+  <insert id="insertIgnore" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity" useGeneratedKeys="true">
+    insert ignore kh_activity_contact_relation (id,activity_id,contact_id,last_mod_uid,status,create_time,update_time )  values (#{id,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER},#{contactId,jdbcType=INTEGER},#{lastModUid,jdbcType=INTEGER},#{status,jdbcType=SMALLINT},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertIgnoreSelective" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityEntity" useGeneratedKeys="true">
-    insert ignore kh_activity
+  <insert id="insertIgnoreSelective" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity" useGeneratedKeys="true">
+    insert ignore kh_activity_contact_relation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id!=null">
         id,
       </if>
-      <if test="name!=null">
-        name,
+      <if test="activityId!=null">
+        activity_id,
       </if>
-      <if test="description!=null">
-        description,
-      </if>
-      <if test="startTime!=null">
-        start_time,
-      </if>
-      <if test="endTime!=null">
-        end_time,
+      <if test="contactId!=null">
+        contact_id,
       </if>
       <if test="lastModUid!=null">
         last_mod_uid,
@@ -459,17 +403,11 @@
       <if test="id!=null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name!=null">
-        #{name,jdbcType=VARCHAR},
+      <if test="activityId!=null">
+        #{activityId,jdbcType=INTEGER},
       </if>
-      <if test="description!=null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime!=null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime!=null">
-        #{endTime,jdbcType=TIMESTAMP},
+      <if test="contactId!=null">
+        #{contactId,jdbcType=INTEGER},
       </if>
       <if test="lastModUid!=null">
         #{lastModUid,jdbcType=INTEGER},
@@ -485,26 +423,20 @@
       </if>
     </trim>
   </insert>
-  <insert id="insertReplace" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityEntity" useGeneratedKeys="true">
-    replace into kh_activity (id,name,description,start_time,end_time,last_mod_uid,status,create_time,update_time )  values (#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR},#{startTime,jdbcType=TIMESTAMP},#{endTime,jdbcType=TIMESTAMP},#{lastModUid,jdbcType=INTEGER},#{status,jdbcType=SMALLINT},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
+  <insert id="insertReplace" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity" useGeneratedKeys="true">
+    replace into kh_activity_contact_relation (id,activity_id,contact_id,last_mod_uid,status,create_time,update_time )  values (#{id,jdbcType=INTEGER},#{activityId,jdbcType=INTEGER},#{contactId,jdbcType=INTEGER},#{lastModUid,jdbcType=INTEGER},#{status,jdbcType=SMALLINT},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertReplaceSelective" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityEntity" useGeneratedKeys="true">
-    replace into kh_activity
+  <insert id="insertReplaceSelective" keyProperty="id" parameterType="com.shan.yellowpages.security.model.KhActivityContactRelationEntity" useGeneratedKeys="true">
+    replace into kh_activity_contact_relation
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id!=null">
         id,
       </if>
-      <if test="name!=null">
-        name,
+      <if test="activityId!=null">
+        activity_id,
       </if>
-      <if test="description!=null">
-        description,
-      </if>
-      <if test="startTime!=null">
-        start_time,
-      </if>
-      <if test="endTime!=null">
-        end_time,
+      <if test="contactId!=null">
+        contact_id,
       </if>
       <if test="lastModUid!=null">
         last_mod_uid,
@@ -523,17 +455,11 @@
       <if test="id!=null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="name!=null">
-        #{name,jdbcType=VARCHAR},
+      <if test="activityId!=null">
+        #{activityId,jdbcType=INTEGER},
       </if>
-      <if test="description!=null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime!=null">
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="endTime!=null">
-        #{endTime,jdbcType=TIMESTAMP},
+      <if test="contactId!=null">
+        #{contactId,jdbcType=INTEGER},
       </if>
       <if test="lastModUid!=null">
         #{lastModUid,jdbcType=INTEGER},
@@ -550,7 +476,7 @@
     </trim>
   </insert>
   <update id="logicalDeleteByPrimaryKey" parameterType="java.lang.Integer">
-    update kh_activity
+    update kh_activity_contact_relation
           set status = -1
         where id = #{id,jdbcType=INTEGER}
           and status != -1

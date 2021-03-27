@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializable {
+public class KhActivityContactRelationEntityCriteria extends KhCriteriaBase implements Serializable {
     /**
      * 查询或条件
      */
@@ -19,21 +19,21 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     private static final long serialVersionUID = 1L;
 
     /**
-     * 构造查询条件,kh_activity
+     * 构造查询条件,kh_activity_contact_relation
      */
-    public KhActivityEntityCriteria() {
+    public KhActivityContactRelationEntityCriteria() {
         oredCriteria = new ArrayList<>();
     }
 
     /**
-     * 获取当前的查询条件实例,kh_activity
+     * 获取当前的查询条件实例,kh_activity_contact_relation
      */
     public List<Criteria> getOredCriteria() {
         return oredCriteria;
     }
 
     /**
-     * ,kh_activity
+     * ,kh_activity_contact_relation
      *
      * @param criteria 过滤条件实例
      */
@@ -42,7 +42,7 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     }
 
     /**
-     * ,kh_activity
+     * ,kh_activity_contact_relation
      */
     public Criteria or() {
         Criteria criteria = createCriteriaInternal();
@@ -51,7 +51,7 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     }
 
     /**
-     * 创建一个查询条件,kh_activity
+     * 创建一个查询条件,kh_activity_contact_relation
      */
     public Criteria createCriteria() {
         Criteria criteria = createCriteriaInternal();
@@ -62,7 +62,7 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     }
 
     /**
-     * 内部构建查询条件对象,kh_activity
+     * 内部构建查询条件对象,kh_activity_contact_relation
      */
     protected Criteria createCriteriaInternal() {
         Criteria criteria = new Criteria();
@@ -70,7 +70,7 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     }
 
     /**
-     * 清除查询条件,kh_activity
+     * 清除查询条件,kh_activity_contact_relation
      */
     public void clear() {
         oredCriteria.clear();
@@ -79,9 +79,9 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     }
 
     /**
-     * 活动表
+     * 活动-联系人关联表
      * GeneratedCriteria
-     * 数据库表：kh_activity
+     * 数据库表：kh_activity_contact_relation
      */
     protected abstract static class GeneratedCriteria implements Serializable {
         protected List<Criterion> criteria;
@@ -189,263 +189,123 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNull() {
-            addCriterion("name is null");
+        public Criteria andActivityIdIsNull() {
+            addCriterion("activity_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameIsNotNull() {
-            addCriterion("name is not null");
+        public Criteria andActivityIdIsNotNull() {
+            addCriterion("activity_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andNameEqualTo(String value) {
-            addCriterion("name =", value, "name");
+        public Criteria andActivityIdEqualTo(Integer value) {
+            addCriterion("activity_id =", value, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotEqualTo(String value) {
-            addCriterion("name <>", value, "name");
+        public Criteria andActivityIdNotEqualTo(Integer value) {
+            addCriterion("activity_id <>", value, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThan(String value) {
-            addCriterion("name >", value, "name");
+        public Criteria andActivityIdGreaterThan(Integer value) {
+            addCriterion("activity_id >", value, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameGreaterThanOrEqualTo(String value) {
-            addCriterion("name >=", value, "name");
+        public Criteria andActivityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("activity_id >=", value, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThan(String value) {
-            addCriterion("name <", value, "name");
+        public Criteria andActivityIdLessThan(Integer value) {
+            addCriterion("activity_id <", value, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameLessThanOrEqualTo(String value) {
-            addCriterion("name <=", value, "name");
+        public Criteria andActivityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("activity_id <=", value, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameLike(String value) {
-            addCriterion("name like", value, "name");
+        public Criteria andActivityIdIn(List<Integer> values) {
+            addCriterion("activity_id in", values, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotLike(String value) {
-            addCriterion("name not like", value, "name");
+        public Criteria andActivityIdNotIn(List<Integer> values) {
+            addCriterion("activity_id not in", values, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameIn(List<String> values) {
-            addCriterion("name in", values, "name");
+        public Criteria andActivityIdBetween(Integer value1, Integer value2) {
+            addCriterion("activity_id between", value1, value2, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotIn(List<String> values) {
-            addCriterion("name not in", values, "name");
+        public Criteria andActivityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("activity_id not between", value1, value2, "activityId");
             return (Criteria) this;
         }
 
-        public Criteria andNameBetween(String value1, String value2) {
-            addCriterion("name between", value1, value2, "name");
+        public Criteria andContactIdIsNull() {
+            addCriterion("contact_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andNameNotBetween(String value1, String value2) {
-            addCriterion("name not between", value1, value2, "name");
+        public Criteria andContactIdIsNotNull() {
+            addCriterion("contact_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionIsNull() {
-            addCriterion("description is null");
+        public Criteria andContactIdEqualTo(Integer value) {
+            addCriterion("contact_id =", value, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionIsNotNull() {
-            addCriterion("description is not null");
+        public Criteria andContactIdNotEqualTo(Integer value) {
+            addCriterion("contact_id <>", value, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionEqualTo(String value) {
-            addCriterion("description =", value, "description");
+        public Criteria andContactIdGreaterThan(Integer value) {
+            addCriterion("contact_id >", value, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionNotEqualTo(String value) {
-            addCriterion("description <>", value, "description");
+        public Criteria andContactIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("contact_id >=", value, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionGreaterThan(String value) {
-            addCriterion("description >", value, "description");
+        public Criteria andContactIdLessThan(Integer value) {
+            addCriterion("contact_id <", value, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
-            addCriterion("description >=", value, "description");
+        public Criteria andContactIdLessThanOrEqualTo(Integer value) {
+            addCriterion("contact_id <=", value, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionLessThan(String value) {
-            addCriterion("description <", value, "description");
+        public Criteria andContactIdIn(List<Integer> values) {
+            addCriterion("contact_id in", values, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionLessThanOrEqualTo(String value) {
-            addCriterion("description <=", value, "description");
+        public Criteria andContactIdNotIn(List<Integer> values) {
+            addCriterion("contact_id not in", values, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionLike(String value) {
-            addCriterion("description like", value, "description");
+        public Criteria andContactIdBetween(Integer value1, Integer value2) {
+            addCriterion("contact_id between", value1, value2, "contactId");
             return (Criteria) this;
         }
 
-        public Criteria andDescriptionNotLike(String value) {
-            addCriterion("description not like", value, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionIn(List<String> values) {
-            addCriterion("description in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotIn(List<String> values) {
-            addCriterion("description not in", values, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionBetween(String value1, String value2) {
-            addCriterion("description between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andDescriptionNotBetween(String value1, String value2) {
-            addCriterion("description not between", value1, value2, "description");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeIsNull() {
-            addCriterion("start_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeIsNotNull() {
-            addCriterion("start_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeEqualTo(Date value) {
-            addCriterion("start_time =", value, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeNotEqualTo(Date value) {
-            addCriterion("start_time <>", value, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeGreaterThan(Date value) {
-            addCriterion("start_time >", value, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("start_time >=", value, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeLessThan(Date value) {
-            addCriterion("start_time <", value, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeLessThanOrEqualTo(Date value) {
-            addCriterion("start_time <=", value, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeIn(List<Date> values) {
-            addCriterion("start_time in", values, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeNotIn(List<Date> values) {
-            addCriterion("start_time not in", values, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeBetween(Date value1, Date value2) {
-            addCriterion("start_time between", value1, value2, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andStartTimeNotBetween(Date value1, Date value2) {
-            addCriterion("start_time not between", value1, value2, "startTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIsNull() {
-            addCriterion("end_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIsNotNull() {
-            addCriterion("end_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeEqualTo(Date value) {
-            addCriterion("end_time =", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotEqualTo(Date value) {
-            addCriterion("end_time <>", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeGreaterThan(Date value) {
-            addCriterion("end_time >", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("end_time >=", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeLessThan(Date value) {
-            addCriterion("end_time <", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeLessThanOrEqualTo(Date value) {
-            addCriterion("end_time <=", value, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeIn(List<Date> values) {
-            addCriterion("end_time in", values, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotIn(List<Date> values) {
-            addCriterion("end_time not in", values, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeBetween(Date value1, Date value2) {
-            addCriterion("end_time between", value1, value2, "endTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEndTimeNotBetween(Date value1, Date value2) {
-            addCriterion("end_time not between", value1, value2, "endTime");
+        public Criteria andContactIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("contact_id not between", value1, value2, "contactId");
             return (Criteria) this;
         }
 
@@ -693,7 +553,7 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     /**
      * 类注释
      * Criteria
-     * 数据库表：kh_activity
+     * 数据库表：kh_activity_contact_relation
      */
     public static class Criteria extends GeneratedCriteria implements Serializable {
         /**
@@ -707,9 +567,9 @@ public class KhActivityEntityCriteria extends KhCriteriaBase implements Serializ
     }
 
     /**
-     * 活动表
+     * 活动-联系人关联表
      * Criterion
-     * 数据库表：kh_activity
+     * 数据库表：kh_activity_contact_relation
      */
     public static class Criterion implements Serializable {
         private String condition;

@@ -16,10 +16,16 @@ public class KhActivityEntity implements Serializable {
     private Integer id;
 
     /**
-     * 姓名
+     * 活动名称
      * 表字段 : kh_activity.name
      */
     private String name;
+
+    /**
+     * 描述
+     * 表字段 : kh_activity.description
+     */
+    private String description;
 
     /**
      * 活动开始时间
@@ -32,12 +38,6 @@ public class KhActivityEntity implements Serializable {
      * 表字段 : kh_activity.end_time
      */
     private Date endTime;
-
-    /**
-     * 联系人id
-     * 表字段 : kh_activity.contact_id
-     */
-    private Integer contactId;
 
     /**
      * 最后操作人
@@ -92,21 +92,39 @@ public class KhActivityEntity implements Serializable {
     }
 
     /**
-     * 获取 姓名 字段:kh_activity.name
+     * 获取 活动名称 字段:kh_activity.name
      *
-     * @return kh_activity.name, 姓名
+     * @return kh_activity.name, 活动名称
      */
     public String getName() {
         return name;
     }
 
     /**
-     * 设置 姓名 字段:kh_activity.name
+     * 设置 活动名称 字段:kh_activity.name
      *
-     * @param name the value for kh_activity.name, 姓名
+     * @param name the value for kh_activity.name, 活动名称
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * 获取 描述 字段:kh_activity.description
+     *
+     * @return kh_activity.description, 描述
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * 设置 描述 字段:kh_activity.description
+     *
+     * @param description the value for kh_activity.description, 描述
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -143,24 +161,6 @@ public class KhActivityEntity implements Serializable {
      */
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    /**
-     * 获取 联系人id 字段:kh_activity.contact_id
-     *
-     * @return kh_activity.contact_id, 联系人id
-     */
-    public Integer getContactId() {
-        return contactId;
-    }
-
-    /**
-     * 设置 联系人id 字段:kh_activity.contact_id
-     *
-     * @param contactId the value for kh_activity.contact_id, 联系人id
-     */
-    public void setContactId(Integer contactId) {
-        this.contactId = contactId;
     }
 
     /**
@@ -246,9 +246,9 @@ public class KhActivityEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
+        sb.append(", description=").append(description);
         sb.append(", startTime=").append(startTime);
         sb.append(", endTime=").append(endTime);
-        sb.append(", contactId=").append(contactId);
         sb.append(", lastModUid=").append(lastModUid);
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);

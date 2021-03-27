@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shan.yellowpages.security.dao.mapper.KhContactEntityMapper">
+
+  <select id="test" resultType="java.lang.Integer">
+  select count(1) from kh_contact
+  </select>
+
+  <!-- 条件查询活动的联系人 -->
+  <select id="queryByActivity" resultMap="BaseResultMap">
+    select
+    c.*
+    from kh_contact c, kh_activity_contact_relation acr
+    where
+    acr.activity_id = #{activityId}
+    and c.id = acr.contact_id
+    <if test="contactName != null">
+      c.name like #{contactName}
+    </if>
+
+    <if test="example.orderByClause != null">
+      order by #{example.orderByClause}
+    </if>
+    <if test="example.limitRows != null">
+      limit
+      <if test="example.limitOffset != null">
+        #{example.limitOffset},
+      </if>
+      #{example.limitRows}
+    </if>
+
+  </select>
+
+
+  <!-- 条件查询活动的联系人个数 -->
+  <select id="countByActivity" resultType="java.lang.Integer">
+    select
+    count(1)
+    from kh_contact c, kh_activity_contact_relation acr
+    where
+    acr.activity_id=#{activityId}
+    and c.id = acr.contact_id
+
+    <if test="contactName != null">
+      c.name like #{contactName}
+    </if>
+
+  </select>
+
+
+
+</mapper>
