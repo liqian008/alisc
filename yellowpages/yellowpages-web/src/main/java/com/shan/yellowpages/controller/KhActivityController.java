@@ -179,7 +179,8 @@ public class KhActivityController extends AbstractBaseController implements Init
 	 */
 	@RequestMapping("/contactPaging")
 	public String paging(Model model,
-			int activityId, String name,
+			@RequestParam int activityId,
+			String name,
 			@RequestParam(defaultValue = "1") int pageNo,  @RequestParam(defaultValue = "30") int pageSize,  HttpServletRequest req) {
 
 		//pageSize = 5;
@@ -187,12 +188,21 @@ public class KhActivityController extends AbstractBaseController implements Init
 		model.addAttribute("servletPath", servletPath);
 
 		//构造查询参数
-		buildParams(req);
+		String param = buildParams(req);
+		param = param + "&" + "activityId="+activityId;
+		req.setAttribute("params", param);
+
+		KhActivityEntity activity = khActivityEntityService.loadById(activityId);
+		model.addAttribute("activity", activity);
 
 		model.addAttribute("pageNo", pageNo);
 		KhContactEntityCriteria criteria = new KhContactEntityCriteria();
 
-
+		if(StringUtils.isBlank(name)){
+			name = null;
+		}else{
+			name = "%" + name + "%";
+		}
 		KhPagingResult<ContactStruct> pagingResult = khContactEntityService.pagingDtoByActivity(pageNo, pageSize, activityId, name, criteria);
 		model.addAttribute("pagingData", pagingResult);
 		return "activity/contactPaging";

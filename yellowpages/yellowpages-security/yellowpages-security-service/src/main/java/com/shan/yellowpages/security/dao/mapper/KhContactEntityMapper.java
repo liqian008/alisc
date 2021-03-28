@@ -32,10 +32,9 @@ public interface KhContactEntityMapper extends IKhBaseMapper<KhContactEntity, Kh
 	 * 查询个数
 	 * @param activityId
 	 * @param contactName 名称
-	 * @param example 条件查询辅助类
 	 * @return 符合条件的记录集合
 	 */
-	Integer countByActivity(@Param("activityId") int activityId, @Param("contactName") String contactName, @Param("example") KhContactEntityCriteria example);
+	Integer countByActivity(@Param("activityId") int activityId, @Param("contactName") String contactName);
 
 
 	/**

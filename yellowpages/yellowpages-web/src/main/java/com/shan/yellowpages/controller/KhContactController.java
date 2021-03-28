@@ -4,15 +4,17 @@ import com.shan.yellowpages.annotation.AuthorizeConfig;
 import com.shan.yellowpages.base.enumeration.StatusEnum;
 import com.shan.yellowpages.base.model.paging.KhPagingResult;
 import com.shan.yellowpages.controller.base.AbstractBaseController;
-import com.shan.yellowpages.security.model.KhAdminUserEntity;
-import com.shan.yellowpages.security.model.KhContactEntity;
-import com.shan.yellowpages.security.model.KhContactEntityCriteria;
+import com.shan.yellowpages.security.model.*;
+import com.shan.yellowpages.security.model.struct.ContactActivityStruct;
 import com.shan.yellowpages.security.model.struct.ContactStruct;
+import com.shan.yellowpages.security.service.IKhActivityContactRelationEntityService;
+import com.shan.yellowpages.security.service.IKhActivityEntityService;
 import com.shan.yellowpages.security.service.IKhContactEntityService;
 import com.shan.yellowpages.util.ExcelUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,10 +50,17 @@ public class KhContactController extends AbstractBaseController implements Initi
 
 	@Autowired
 	private IKhContactEntityService khContactEntityService;
+	@Autowired
+	private IKhActivityEntityService khActivityEntityService;
+	@Autowired
+	private IKhActivityContactRelationEntityService khActivityContactRelationEntityService;
+
 
 
 	@Override public void afterPropertiesSet() throws Exception {
 		Assert.notNull(khContactEntityService, "khContactEntityService can't be null");
+		Assert.notNull(khActivityEntityService, "khActivityEntityService can't be null");
+		Assert.notNull(khActivityContactRelationEntityService, "khActivityContactRelationEntityService can't be null");
 	}
 
 
@@ -128,6 +137,13 @@ public class KhContactController extends AbstractBaseController implements Initi
 		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
 			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
 		}
+
+		List<ContactActivityStruct> activityStructList = processActivityList(null);
+		model.addAttribute("activityStructList", activityStructList);
+
+
+		model.addAttribute("activityStructList", activityStructList);
+
 		return "contact/contactEdit";
 	}
 
@@ -153,11 +169,13 @@ public class KhContactController extends AbstractBaseController implements Initi
 //			model.addAttribute("calloutStyle", "callout-info");
 //		}
 
-
-
 		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
 			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
 		}
+
+		List<ContactActivityStruct> activityStructList = processActivityList(id);
+		model.addAttribute("activityStructList", activityStructList);
+
 		return "contact/contactEdit";
 	}
 
@@ -169,12 +187,51 @@ public class KhContactController extends AbstractBaseController implements Initi
 		KhContactEntity contact = khContactEntityService.loadById(id);
 		model.addAttribute("contact", contact);
 
+
+		List<ContactActivityStruct> activityStructList = processActivityList(id);
+		model.addAttribute("activityStructList", activityStructList);
+
 		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
 			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
 		}
 		return "contact/contactEdit";
 	}
 
+	/**
+	 * 处理活动列表
+	 * @param contactId 联系人id
+	 * @return
+	 */
+	private List<ContactActivityStruct> processActivityList(Integer contactId) {
+
+		List<KhActivityContactRelationEntity> relationEntityList = null;
+
+		//获取联系人关联过的列表
+		if(contactId!=null && contactId > 0){
+			KhActivityContactRelationEntityCriteria criteria = new KhActivityContactRelationEntityCriteria();
+			criteria.createCriteria().andContactIdEqualTo(contactId);
+			relationEntityList = khActivityContactRelationEntityService.queryByCriteria(criteria);
+		}
+
+		//获取联系人关联过的列表
+		List<KhActivityEntity> activityEntityList = khActivityEntityService.queryAll();
+		List<ContactActivityStruct> activityStructList = new ArrayList<>();
+		if(CollectionUtils.isNotEmpty(activityEntityList)){
+			for(KhActivityEntity activityEntity: activityEntityList){
+				ContactActivityStruct activityStruct = ContactActivityStruct.convert(activityEntity);
+				if(CollectionUtils.isNotEmpty(relationEntityList)){
+					for(KhActivityContactRelationEntity item: relationEntityList){
+						//判断是否匹配
+						if(item.getActivityId().equals(activityEntity.getId())){
+							activityStruct.setChecked(true);
+						}
+					}
+				}
+				activityStructList.add(activityStruct);
+			}
+		}
+		return activityStructList;
+	}
 
 	@RequestMapping("/info")
 	public String info(Model model, int id, HttpServletRequest req) {
@@ -222,6 +279,35 @@ public class KhContactController extends AbstractBaseController implements Initi
 		if(StringUtils.isBlank(contact.getAvatar())){
 			contact.setAvatar(null);
 		}
+
+		//保存联系人和活动的关系
+		String[] activityIds = req.getParameterValues("activityIds");
+		if(ArrayUtils.isNotEmpty(activityIds)){
+
+			int contactId = contact.getId();
+
+			khActivityContactRelationEntityService.deleteByContactId(contactId);
+
+			for(String activityIdStr: activityIds){
+				int activityId = NumberUtils.toInt(activityIdStr);
+				if(activityId>0){
+					KhActivityContactRelationEntity relationEntity = new KhActivityContactRelationEntity();
+					relationEntity.setActivityId(activityId);
+					relationEntity.setContactId(contactId);
+					relationEntity.setCreateTime(currentTime);
+					relationEntity.setUpdateTime(currentTime);
+					try{
+						khActivityContactRelationEntityService.saveIgnore(relationEntity);
+					}catch (Exception e){
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+
+
+
 
 		req.setAttribute("redirectUrl", "./paging");
 		return "forward:/home/operationRedirect";

@@ -107,8 +107,8 @@ public class KhContactEntityServiceImpl implements IKhContactEntityService, Init
 	public KhPagingResult<ContactStruct> pagingDtoByActivity(int pageNo, int pageSize, int activityId, String contactName, KhContactEntityCriteria criteria) {
 		logger.debug("[" + this.getClass().getName() + "][pagingDtoByActivity]entering, pageNo:{},pageSize:{},criteria:{}", pageNo, pageSize, criteria);
 
-		Integer count = khContactEntityMapper.test();
-//		Integer count = khContactEntityMapper.countByActivity(activityId, contactName, criteria);
+//		Integer count = khContactEntityMapper.test();
+		Integer count = khContactEntityMapper.countByActivity(activityId, contactName);
 		count = count==null?0:count;
 
 		// 确保pageNo合法

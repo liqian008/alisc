@@ -11,7 +11,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * dto
+ * 联系人vo
+ * @author bruce
  */
 @Data
 @NoArgsConstructor

@@ -124,6 +124,9 @@
                                 <a th:href="@{/activity/edit(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="编 辑">
                                     <i class="icon-pencil3"></i>
                                 </a>
+                                <a th:href="@{/activity/contactPaging(activityId=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="联系人列表">
+                                    <i class="icon-tree3"></i>
+                                </a>
 <!--                                <a th:href="@{/activity/roleResourceSet(roleId=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="关联资源"><i class="icon-tree3"></i></a>-->
 <!--                                <a href="javascript:void(0)" th:onclick="'javascript:del(\''+${item.id}+'\')'"  class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="删除"><i class="icon-remove3"></i></a>-->
                             </div>

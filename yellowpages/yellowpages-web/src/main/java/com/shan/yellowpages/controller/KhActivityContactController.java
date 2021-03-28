@@ -40,30 +40,6 @@ public class KhActivityContactController extends AbstractBaseController implemen
 
 
 
-//	/**
-//	 * 分页方式查询
-//	 */
-//	@RequestMapping("/contactPaging")
-//	public String paging(Model model,
-//			int activityId, String name,
-//			@RequestParam(defaultValue = "1") int pageNo,  @RequestParam(defaultValue = "30") int pageSize,  HttpServletRequest req) {
-//
-//		//		pageSize = 5;
-//		String servletPath = req.getRequestURI();
-//		model.addAttribute("servletPath", servletPath);
-//
-//		//构造查询参数
-//		buildParams(req);
-//
-//		model.addAttribute("pageNo", pageNo);
-//		KhContactEntityCriteria criteria = new KhContactEntityCriteria();
-//
-//
-//		KhPagingResult<ContactStruct> pagingResult = khContactEntityService.pagingDtoByActivity(pageNo, pageSize, activityId, name, criteria);
-//		model.addAttribute("pagingData", pagingResult);
-//		return "activity/contactPaging";
-//	}
-
 
 
 }

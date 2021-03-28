@@ -13,7 +13,9 @@ import com.shan.yellowpages.security.model.KhActivityContactRelationEntityCriter
  */
 public interface IKhActivityContactRelationEntityService extends IKhBaseService<KhActivityContactRelationEntity, KhActivityContactRelationEntityCriteria, Integer> {
 
-//	/**
+	int deleteByContactId(int contactId);
+
+	//	/**
 //	 * 分页查询dto
 //	 *
 //	 * @param pageNo 当前页数

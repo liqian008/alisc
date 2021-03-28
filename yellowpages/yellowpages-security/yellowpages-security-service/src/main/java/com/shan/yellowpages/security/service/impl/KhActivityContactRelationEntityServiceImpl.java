@@ -44,7 +44,17 @@ public class KhActivityContactRelationEntityServiceImpl implements IKhActivityCo
 		return new KhActivityEntityCriteria();
 	}
 
+	/**
+	 *
+	 * @param contactId
+	 * @return
+	 */
+	@Override public int deleteByContactId(int contactId) {
 
+		KhActivityContactRelationEntityCriteria criteria = new KhActivityContactRelationEntityCriteria();
+		criteria.createCriteria().andContactIdEqualTo(contactId);
 
-
+		int result =  khActivityContactRelationEntityMapper.deleteByExample(criteria);
+		return result;
+	}
 }

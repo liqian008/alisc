@@ -90,6 +90,9 @@ upload:
   url:
     suffix: http://localhost:8080/static/
 
-log.path: /Users/bruce/git/bruce/alisc/yellowpages/yellowpages-web/logs
+log:
+  path: /Users/bruce/git/bruce/alisc/yellowpages/yellowpages-web/logs
 
 
+mybatis:
+  mapper-location: classpath*:com/shan/yellowpages/**/*.xml
