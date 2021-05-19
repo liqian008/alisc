@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>活动管理</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+
+<!--    <style>-->
+<!--        .row > div {-->
+<!--            padding-top: 10px;-->
+<!--        }-->
+
+<!--    </style>-->
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+<!--<script src="//cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>-->
+<!--<link href="//cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">-->
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    活动管理
+                </h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">活动管理</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        <div class="callout fade in callout-info">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>编辑活动信息</h5>
+        </div>
+
+        <form id="validate" action="./save" method="post" class="form-horizontal">
+
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>编辑活动信息
+<!--                        <i class="icon-user"></i>编辑活动信息-->
+                    </h6>
+                </div>
+
+                <div class="panel-body">
+
+                    <input th:if="${activity} != null" id="id" name="id" type="hidden" th:value="${activity} ? ${activity.id}" />
+
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <label class="control-label">姓名</label>
+                            <input type="text" class="form-control" name="name" id="name" th:value="${activity.name}"/>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label class="control-label">简介<span class="mandatory">*</span>
+                            </label>
+                            <textarea rows="3" cols="3" class="elastic form-control" id="description" name="description" placeholder="简介" th:text="${activity.description}" maxlength="200"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">状 态<span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select class="form-control" id="status" name="status" th:field="${activity.status}">
+                                <option value="1" label="启用"></option>
+                                <option value="0" label="禁用"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions text-right">
+                        <input th:if="${activity?.id!=null && activity?.id>0}" type="button" id="btn_delete" value="删 除" class="btn btn-danger" th:data-id="${activity.id}">
+                        <input type="reset" value="重 置" class="btn btn-primary">
+                        <input type="submit" value="提 交" class="btn btn-info">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div th:replace="inc/footer :: footer"></div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function() {
+        $("#btn_delete").on("click", function () {
+
+            // alert($(this));
+            var dataId = $(this).data('id');
+            // alert(dataid);
+
+            if (confirm("删除后将无法恢复，确定要删除吗？")) {
+                var url = './delete?id='+dataId;
+                location.href=url;
+            }
+        })
+    });
+
+
+    function changeAvatar(file) {
+        console.log(file.value);
+
+        var formData = new FormData();
+        formData.append('file', $('#avatarUploader')[0].files[0]); // 固定格式
+
+        $.ajax({
+            url: "/upload/uploadFile.json",														//后台接收数据地址
+            //headers:{'Content-Type':'multipart/form-data'},//加上这个报错
+            data:formData,
+            type: "POST",
+            dataType: "json",
+            cache: false,			//上传文件无需缓存
+            processData: false,		//用于对data参数进行序列化处理 这里必须false
+            contentType: false,
+            success:function(res){
+                var result=res;
+                var errorCode=result.errorCode;
+                if (errorCode==0){
+                    // alert("图片上传成功！");
+                    $("#avatar").val(result.data.resUrl);
+                    $("#avatarPreview").attr("src", result.data.resUrl);
+                }else{
+                    alert(result.errorMessage);
+                }
+            },
+            failure: function (res) {
+                // alert("图片上传失败！");
+                alert(result.errorMessage);
+            }
+        })
+
+
+        /**
+         * 文件预览
+         */
+        // var url = null;
+        // var fileObj = document.getElementById("avatarUploader").files[0];
+        // if (window.createObjcectURL != undefined) {
+        //     url = window.createOjcectURL(fileObj);
+        // } else if (window.URL != undefined) {
+        //     url = window.URL.createObjectURL(fileObj);
+        // } else if (window.webkitURL != undefined) {
+        //     url = window.webkitURL.createObjectURL(fileObj);
+        // }
+        // $("#avatarPreview").attr("src", url);
+
+        // $("#avatar").val(file.value);
+        // $("#avatarPreview").attr("src", "file://C:/fakepath/李乾_学位证.jpeg");
+        // $("#avatarPreview").attr("src", "file://"+file.value);
+    }
+
+    // $(function(){
+    //
+    //     $('#validate').bootstrapValidator({
+    //         fields: {
+    //             "name": {
+    //                 message: '活动姓名不符合要求',
+    //                 validators: {
+    //                     notEmpty: {
+    //                         message: '活动姓名不能为空'
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     });
+    // })
+
+</script>
+</body>
+</html>

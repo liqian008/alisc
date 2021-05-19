@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>活动联系人管理</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+
+
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    活动联系人管理
+                </h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">活动联系人管理</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        <div class="callout callout-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <h5>活动信息</h5>
+
+            <p th:text="${activity.name}">
+            </p>
+
+<!--            <p th:text="'prefix'+ (2013+3) + ${name}">-->
+<!--            <p th:text="|${name}|">-->
+<!--            <p th:if="${session._session_user==null}">123</p>-->
+<!--            <p>Today is: <span th:text="${session._session_user}">2 November 2016</span>. #{ctx}</p>-->
+        </div>
+        <form id="validate" action="./contactPaging" method="post">
+
+            <!-- activityId -->
+            <input type="hidden" name="activityId" th:value="${activity.id}">
+
+            <!-- Basic inputs -->
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>条件筛选
+                    </h6>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="row">
+
+
+                            <div class="col-md-2">
+                                <label>姓名</label>
+                                <input type="text" name="name" placeholder="支持模糊匹配" class="form-control" th:value="${name}">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>邮箱</label>
+                                <input type="text" name="email" placeholder="支持模糊匹配" class="form-control" th:value="${email}">
+                            </div>
+
+
+                            <div class="col-md-2">
+                                <label>手机号</label>
+                                <input type="text" name="mobile" placeholder="支持模糊匹配" class="form-control" th:value="${mobile}">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label>联系电话</label>
+                                <input type="text" name="telphone" placeholder="支持模糊匹配" class="form-control" th:value="${telphone}">
+                            </div>
+
+<!--                            <div class="col-sm-2">-->
+<!--                                <label class="control-label">传真</label>-->
+<!--                                <input type="text" placeholder="支持模糊匹配"  class="form-control" name="fax" id="fax" th:value="${fax}"/>-->
+<!--                            </div>-->
+
+                            <div class="col-sm-2">
+                                <label class="control-label">备注</label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="remark" id="remark" th:value="${remark}"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-sm-2">
+                                <label class="control-label">公司中文名</label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="company" id="company" th:value="${company}"/>
+                                <!-- <span class="help-block">中文名称</span>-->
+                            </div>
+                            <div class="col-sm-2">
+                                <label class="control-label">公司英文名</label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="companyEn" id="companyEn" th:value="${companyEn}"/>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="control-label">公司网址</label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="companyWebsite" id="companyWebsite" th:value="${companyWebsite}"/>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="control-label">职位</label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="title" id="title" th:value="${title}"/>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="control-label">部门</label>
+                                </label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="department" id="department" th:value="${department}"/>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="control-label">所在行业</label>
+                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="industry" id="industry" th:value="${industry}"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+<!--                    <div class="form-group">-->
+<!--                        <div class="row">-->
+
+<!--                            <div class="col-sm-2">-->
+<!--                                <label class="control-label">性别</label>-->
+<!--                                <div class="input-group">-->
+<!--                                    <span class="input-group-addon">-->
+<!--                                        <input type="checkbox">-->
+<!--                                    </span>-->
+<!--                                    <select name="select" class="form-control">-->
+<!--                                        <option value="opt1">所有</option>-->
+<!--                                        <option value="opt1">男</option>-->
+<!--                                        <option value="opt1">女</option>-->
+<!--                                        <option value="opt1">未知</option>-->
+<!--                                    </select>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+
+                    <div class="form-actions text-center">
+                        <input type="submit" value="查 询" class="btn btn-primary btn-sm">
+                        <input type="reset" value="重 置" class="btn btn-default btn-sm">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Table view -->
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-people"></i>活动联系人管理
+                </h5>
+<!--                <a href="./add" target="_blank"><span class="label label-danger pull-right">新增联系人</span></a>-->
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped dataTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>头像</th>
+                        <th>姓名</th>
+                        <th>手机</th>
+                        <th>公司</th>
+                        <th>Email</th>
+                        <th>操作人</th>
+                        <th class="team-links">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${pagingData.dataList}">
+                        <td th:text="${item.id}"></td>
+                        <td>
+                            <a th:href="${item.avatar}" class="lightbox">
+                                <img width="36px" th:src="${item.avatar}" />
+                            </a>
+                        </td>
+                        <td>
+                            <a data-toggle="modal" role="button" th:href="'#form_modal_'+${item.id}">
+                                <span class="label label-info" th:text="${item.name}"></span>
+                            </a>
+                        </td>
+
+                        <td th:title="'电话: '+${item.telphone}" >
+                            <span class="label label-primary" th:text="${item.mobile}"></span>
+                        </td>
+                        <td th:text="${item.company}"></td>
+                        <td th:title="'传真: '+${item.fax}" th:text="${item.email}"></td>
+                        <td>
+                            <span class="label label-warning tip" data-placement="top" th:text="${item.lastModifyUser?.nickname}" th:data-original-title="${#dates.format(item.updateTime, 'yyyy-MM-dd HH:mm:ss')}"></span>
+                        </td>
+
+                        </td>
+                        <td class='text-center'>
+                            <div class="table-controls">
+                                <a th:href="@{/contact/edit(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="编 辑">
+                                    <i class="icon-pencil3"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="datatable-footer"></div>
+            </div>
+        </div>
+        <!-- /table view -->
+
+        <div th:replace="inc/footer :: footer"></div>
+    </div>
+
+    <!-- Form modal -->
+    <div th:each="item : ${pagingData.dataList}" th:id="'form_modal_'+${item.id}" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">联系人信息</h4>
+
+                </div>
+
+                <!-- Form inside modal -->
+                <form action="visuals.html#" role="form">
+                    <div class="modal-body with-padding">
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>头像</label><br/>
+                                    <img id="avatarPreview" th:src="${item.avatar}" width="150px"/>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">姓名</label>
+                                    <input type="text" class="form-control" name="name" th:value="${item.name}" readonly/>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">身份证</label>
+                                    <input type="text" class="form-control" name="identity" th:value="${item.identity}" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">手机号</label>
+                                    <input type="text" class="form-control" name="mobile" th:value="${item.mobile}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">联系电话</label>
+                                    <input type="text" class="form-control" name="telphone" th:value="${item.telphone}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">邮箱</label>
+                                    <input type="text" class="form-control" name="email" th:value="${item.email}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">传真</label>
+                                    <input type="text" class="form-control" name="fax" th:value="${item.fax}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">国籍</label>
+                                    <input type="text" class="form-control" name="nationalityName" th:value="${item.nationalityName}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">传真</label>
+                                    <input type="text" class="form-control" name="provinceName" th:value="${item.provinceName}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">传真</label>
+                                    <input type="text" class="form-control" name="cityName" th:value="${item.cityName}" readonly/>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="control-label" style="display:block">个人简介</label>
+                                    <span th:text="${item.resume}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="control-label" style="display:block">备注</label>
+                                    <span th:text="${item.remark}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="control-label" style="display:block">描述</label>
+                                   <textarea rows="3" cols="5" class="elastic form-control" name="remark" placeholder="备注" th:value="${item.remark}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                            <div class="col-sm-4">
+                                <label class="control-label">公司信息</label>
+                                <input type="text" class="form-control" name="company"  th:value="${item.company}" readonly/>
+                                <!--                            <span class="help-block">中文名称</span>-->
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="control-label">英文名称</label>
+                                <input type="text" class="form-control" name="companyEn" th:value="${item.companyEn}" readonly/>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label class="control-label">公司网址</label>
+                                <input type="text" class="form-control" name="companyWebsite" th:value="${item.companyWebsite}" readonly/>
+                            </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">职位</label>
+                                    <input type="text" class="form-control" name="title"  th:value="${item.title}" readonly/>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">部门
+                                    </label>
+                                    <input type="text" class="form-control" name="department" th:value="${item.department}" readonly/>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">所在行业
+                                    </label>
+                                    <input type="text" class="form-control" name="industry" th:value="${item.industry}" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label class="control-label">地址</label>
+<!--                                    <textarea rows="3" cols="5" class="elastic form-control" name="address" placeholder="地址" th:value="${item.address}"></textarea>-->
+                                    <span th:text="${item.address}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label class="control-label">地址</label>
+                                    <textarea rows="3" cols="5" class="elastic form-control" name="address" placeholder="地址" th:value="${item.address}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">关 闭</button>
+<!--                        <button type="submit" class="btn btn-warning">Submit form</button>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /form modal -->
+
+
+
+
+</div>
+<script th:inline="javascript">
+    var pagingData = /*[[${pagingData}]]*/ null;
+    var params = /*[[${params}]]*/ "";
+    getTablePaginatorDom(pagingData, pagingData.pageSize,'.datatable-footer',"./contactPaging?"+params)
+
+    /**
+     * 根据 id 删除对应数据，执行成功之后会重新加载当前页
+     */
+    function del(id) {
+        if (confirm("删除后将无法恢复，确定要删除吗")) {
+            var url = './delete.json?id='+id;
+            (url);sendDeleteRequest
+        }
+    }
+
+
+    /**
+     * 根据 id 删除对应数据，执行成功之后会重新加载当前页
+     */
+    function exportExcel(uri) {
+
+        if (confirm("Excel导出需要花费部分时间，确定要导出吗？")) {
+
+            var exportParams = "";
+            $("input[name='exportFields']:checked").each(function (index, item) {
+            // $("input[name='exportFields']").each(function (index, item) {
+                exportParams = exportParams + "&exportFields="+ $(this).val();
+                console.log("exportParams ", exportParams);
+            });
+
+            var params = /*[[${params}]]*/ "";
+            location.href= uri + "?"+params + exportParams;
+
+            //手动关闭modal
+            $("#export_form_modal").modal('hide');
+
+        }
+    }
+</script>
+</body>
+</html>
