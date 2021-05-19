@@ -119,7 +119,6 @@ public class KhContactController extends AbstractBaseController implements Initi
 
 		String[] exportFieldArray = req.getParameterValues("exportFields");
 
-
 		try {
 			export("联系人导出", exportFieldArray, dataList, req, res);
 		} catch (UnsupportedEncodingException e) {
@@ -433,7 +432,7 @@ public class KhContactController extends AbstractBaseController implements Initi
 	}
 
 
-	private static final Map<String, String> keyMap = new HashMap<>();
+	public static final Map<String, String> keyMap = new HashMap<>();
 	static {
 
 		keyMap.put("name", "姓名");
@@ -470,12 +469,12 @@ public class KhContactController extends AbstractBaseController implements Initi
 	 * @param res
 	 * @throws UnsupportedEncodingException
 	 */
-	private void export(String businessName, String[] exportFieldKeyArray, List<KhContactEntity> dataList,
+	public static void export(String businessName, String[] exportFieldKeyArray, List<KhContactEntity> dataList,
 			HttpServletRequest req, HttpServletResponse res) throws
 			UnsupportedEncodingException {
 		String fileName = businessName + ".xlsx";
 		// 设置响应头
-		super.setExcelExportResponseHeader(res, fileName);
+		setExcelExportResponseHeader(res, fileName);
 		try {
 			ExcelExportData exportData = new ExcelExportData();
 			exportData.setSheetName("数据");

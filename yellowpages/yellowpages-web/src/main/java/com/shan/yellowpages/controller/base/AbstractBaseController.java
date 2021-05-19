@@ -99,7 +99,7 @@ public abstract class AbstractBaseController {
 	 * @param fileName
 	 * @throws UnsupportedEncodingException
 	 */
-	protected void setExcelExportResponseHeader(HttpServletResponse response, String fileName)
+	protected static void setExcelExportResponseHeader(HttpServletResponse response, String fileName)
 			throws UnsupportedEncodingException {
 		response.setContentType("application/octet-stream;charset=utf-8");
 		response.setContentType("application/vnd.ms-excel");

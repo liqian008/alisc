@@ -207,4 +207,42 @@ public class KhActivityController extends AbstractBaseController implements Init
 		model.addAttribute("pagingData", pagingResult);
 		return "activity/contactPaging";
 	}
+
+
+//	/**
+//	 * 数据导出excel
+//	 */
+//	@RequestMapping("/exportContacts")
+//	public void exportContacts(
+//			@RequestParam int activityId,
+//			String name,
+//			HttpServletRequest req, HttpServletResponse res) {
+//
+//		//FIXME
+//		KhAdminUserEntity userEntity = getLoginUser(req);
+//		if(!Arrays.stream(ADMIN_USERNAME_ARRAY).anyMatch((item)->StringUtils.equalsIgnoreCase(userEntity.getUsername(), item))){
+//			throw new RuntimeException("没有导出权限");
+//		}
+//
+//
+//		KhContactEntityCriteria criteria = new KhContactEntityCriteria();
+//		if(StringUtils.isBlank(name)){
+//			name = null;
+//		}else{
+//			name = "%" + name + "%";
+//		}
+//		List<ContactStruct> dataList = khContactEntityService.listDtoByActivity(activityId, name, criteria);
+//
+//
+//		String[] exportFieldArray = req.getParameterValues("exportFields");
+//
+//		try {
+//			export("联系人导出", exportFieldArray, dataList, req, res);
+//		} catch (UnsupportedEncodingException e) {
+//
+//		}
+//	}
+
+
+
 }
