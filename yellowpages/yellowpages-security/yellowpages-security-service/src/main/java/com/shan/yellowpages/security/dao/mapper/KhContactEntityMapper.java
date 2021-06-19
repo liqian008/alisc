@@ -42,8 +42,10 @@ public interface KhContactEntityMapper extends IKhBaseMapper<KhContactEntity, Kh
 	 */
 	Integer test();
 
-
-
-
-
+	/**
+	 * 查询活动对应的联系人
+	 * @param activityId
+	 * @return
+	 */
+	List<KhContactEntity> listDtoByActivity(@Param("activityId") int activityId);
 }

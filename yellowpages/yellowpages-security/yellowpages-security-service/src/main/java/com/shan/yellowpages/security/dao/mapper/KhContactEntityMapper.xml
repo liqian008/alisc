@@ -1354,4 +1354,16 @@
 
 
 
+  <!-- 条件活动对应的联系人 -->
+  <select id="listDtoByActivity" resultMap="BaseResultMap">
+    select
+    c.*
+    from kh_contact c, kh_activity_contact_relation acr
+    where
+    acr.activity_id=#{activityId}
+    and c.id = acr.contact_id
+  </select>
+
+
+
   </mapper>

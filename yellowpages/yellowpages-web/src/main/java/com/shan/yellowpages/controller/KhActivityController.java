@@ -4,9 +4,7 @@ import com.shan.yellowpages.annotation.AuthorizeConfig;
 import com.shan.yellowpages.base.enumeration.StatusEnum;
 import com.shan.yellowpages.base.model.paging.KhPagingResult;
 import com.shan.yellowpages.controller.base.AbstractBaseController;
-import com.shan.yellowpages.security.model.KhActivityEntity;
-import com.shan.yellowpages.security.model.KhActivityEntityCriteria;
-import com.shan.yellowpages.security.model.KhContactEntityCriteria;
+import com.shan.yellowpages.security.model.*;
 import com.shan.yellowpages.security.model.struct.ActivityStruct;
 import com.shan.yellowpages.security.model.struct.ContactStruct;
 import com.shan.yellowpages.security.service.IKhActivityEntityService;
@@ -24,7 +22,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+
+import static com.shan.yellowpages.controller.KhContactController.ADMIN_USERNAME_ARRAY;
 
 /**
  * 活动controller
@@ -187,6 +191,15 @@ public class KhActivityController extends AbstractBaseController implements Init
 		String servletPath = req.getRequestURI();
 		model.addAttribute("servletPath", servletPath);
 
+		boolean exportEnable = false;
+		//hardcode FIXME
+		KhAdminUserEntity userEntity = getLoginUser(req);
+		if(Arrays.stream(ADMIN_USERNAME_ARRAY).anyMatch((item)->StringUtils.equalsIgnoreCase(userEntity.getUsername(), item))){
+			exportEnable = true;
+		}
+		model.addAttribute("exportEnable", exportEnable);
+
+
 		//构造查询参数
 		String param = buildParams(req);
 		param = param + "&" + "activityId="+activityId;
@@ -209,22 +222,33 @@ public class KhActivityController extends AbstractBaseController implements Init
 	}
 
 
-//	/**
-//	 * 数据导出excel
-//	 */
-//	@RequestMapping("/exportContacts")
-//	public void exportContacts(
-//			@RequestParam int activityId,
-//			String name,
-//			HttpServletRequest req, HttpServletResponse res) {
-//
-//		//FIXME
-//		KhAdminUserEntity userEntity = getLoginUser(req);
-//		if(!Arrays.stream(ADMIN_USERNAME_ARRAY).anyMatch((item)->StringUtils.equalsIgnoreCase(userEntity.getUsername(), item))){
-//			throw new RuntimeException("没有导出权限");
-//		}
-//
-//
+	/**
+	 * 数据导出excel
+	 */
+	@RequestMapping("/exportContacts")
+	public void exportContacts(
+			@RequestParam int activityId,
+			HttpServletRequest req, HttpServletResponse res) {
+
+		//FIXME
+		KhAdminUserEntity userEntity = getLoginUser(req);
+		if(!Arrays.stream(ADMIN_USERNAME_ARRAY).anyMatch((item)->StringUtils.equalsIgnoreCase(userEntity.getUsername(), item))){
+			throw new RuntimeException("没有导出权限");
+		}
+
+		KhActivityEntity activity = khActivityEntityService.loadById(activityId);
+
+		KhContactEntityCriteria criteria = new KhContactEntityCriteria();
+		List<KhContactEntity> dataList = khContactEntityService.listDtoByActivity(activityId, criteria);
+
+		String[] exportFieldArray = req.getParameterValues("exportFields");
+
+		try {
+			export("【"+activity.getName()+"】联系人导出", exportFieldArray, dataList, req, res);
+		} catch (UnsupportedEncodingException e) {
+		}
+
+
 //		KhContactEntityCriteria criteria = new KhContactEntityCriteria();
 //		if(StringUtils.isBlank(name)){
 //			name = null;
@@ -241,7 +265,7 @@ public class KhActivityController extends AbstractBaseController implements Init
 //		} catch (UnsupportedEncodingException e) {
 //
 //		}
-//	}
+	}
 
 
 

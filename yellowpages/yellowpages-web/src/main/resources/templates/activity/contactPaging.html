@@ -178,6 +178,9 @@
                     <i class="icon-people"></i>活动联系人管理
                 </h5>
 <!--                <a href="./add" target="_blank"><span class="label label-danger pull-right">新增联系人</span></a>-->
+                <a data-toggle="modal" th:attr="activityId=${activity.id}"  role="button" id="exportBtn" th:if="${exportEnable}==true and ${pagingData.totalCount}<30000">
+                    <span class="label label-primary pull-right">导出到Excel</span>
+                </a>
             </div>
             <div class="table-responsive">
                 <table class="table table-bordered table-striped dataTable">
@@ -443,27 +446,36 @@
     }
 
 
+    $().ready(function(){
+        $("#exportBtn").click(function(){
+            // console.log('123123====', $(this));
+            if (confirm("Excel导出需要花费部分时间，确定要导出吗？")) {
+                location.href= './exportContacts?activityId='+$(this).attr('activityId');
+            }
+        });
+    });
+
     /**
      * 根据 id 删除对应数据，执行成功之后会重新加载当前页
      */
     function exportExcel(uri) {
 
-        if (confirm("Excel导出需要花费部分时间，确定要导出吗？")) {
-
-            var exportParams = "";
-            $("input[name='exportFields']:checked").each(function (index, item) {
-            // $("input[name='exportFields']").each(function (index, item) {
-                exportParams = exportParams + "&exportFields="+ $(this).val();
-                console.log("exportParams ", exportParams);
-            });
-
-            var params = /*[[${params}]]*/ "";
-            location.href= uri + "?"+params + exportParams;
-
-            //手动关闭modal
-            $("#export_form_modal").modal('hide');
-
-        }
+        // if (confirm("Excel导出需要花费部分时间，确定要导出吗？")) {
+        //
+        //     var exportParams = "";
+        //     $("input[name='exportFields']:checked").each(function (index, item) {
+        //     // $("input[name='exportFields']").each(function (index, item) {
+        //         exportParams = exportParams + "&exportFields="+ $(this).val();
+        //         console.log("exportParams ", exportParams);
+        //     });
+        //
+        //     var params = /*[[${params}]]*/ "";
+        //     location.href= uri + "?"+params + exportParams;
+        //
+        //     //手动关闭modal
+        //     $("#export_form_modal").modal('hide');
+        //
+        // }
     }
 </script>
 </body>

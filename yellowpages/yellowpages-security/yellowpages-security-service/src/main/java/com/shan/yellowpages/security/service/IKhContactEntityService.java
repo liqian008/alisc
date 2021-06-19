@@ -6,6 +6,8 @@ import com.shan.yellowpages.security.model.KhContactEntity;
 import com.shan.yellowpages.security.model.KhContactEntityCriteria;
 import com.shan.yellowpages.security.model.struct.ContactStruct;
 
+import java.util.List;
+
 /**
  * 联系人的信息主表的 service
  *
@@ -39,14 +41,14 @@ public interface IKhContactEntityService extends IKhBaseService<KhContactEntity,
 			KhContactEntityCriteria criteria);
 
 
-//	/**
-//	 * 查询dto
-//	 *
-//	 * @param activityId
-//	 * @param criteria 条件查询辅助类
-//	 * @return 分页数据对象
-//	 */
-//	List<ContactStruct> listDtoByActivity(int activityId, String contactName, KhContactEntityCriteria criteria);
+	/**
+	 * 查询dto
+	 *
+	 * @param activityId
+	 * @param criteria 条件查询辅助类
+	 * @return 分页数据对象
+	 */
+	List<KhContactEntity> listDtoByActivity(int activityId, KhContactEntityCriteria criteria);
 
 
 }

@@ -144,4 +144,8 @@ public class KhContactEntityServiceImpl implements IKhContactEntityService, Init
 		}
 		return KhPagingResult.EMPTY_PAGING_RESULT;
 	}
+
+	@Override public List<KhContactEntity> listDtoByActivity(int activityId, KhContactEntityCriteria criteria) {
+		return khContactEntityMapper.listDtoByActivity(activityId);
+	}
 }
