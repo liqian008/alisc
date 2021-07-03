@@ -200,6 +200,8 @@ public class KhActivityController extends AbstractBaseController implements Init
 		model.addAttribute("exportEnable", exportEnable);
 
 
+		model.addAttribute("activityId", activityId);
+
 		//构造查询参数
 		String param = buildParams(req);
 		param = param + "&" + "activityId="+activityId;

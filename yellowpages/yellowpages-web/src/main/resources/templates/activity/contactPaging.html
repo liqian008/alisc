@@ -225,6 +225,10 @@
                                 <a th:href="@{/contact/edit(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="编 辑">
                                     <i class="icon-pencil3"></i>
                                 </a>
+
+                                <a th:href="@{'/activityContact/delete?activityId='+${activityId}+'&contactId='+${item.id}}" class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="删 除">
+                                    <i class="icon-remove3"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
