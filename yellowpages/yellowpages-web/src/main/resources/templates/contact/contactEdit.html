@@ -80,7 +80,7 @@
                 <div class="panel-body">
 
                     <input th:if="${contact} != null" id="id" name="id" type="hidden" th:value="${contact} ? ${contact.id}" />
-                    <input th:if="${contact} != null" id="avatar" name="avatar" type="hidden"/>
+                    <input th:if="${contact} != null" id="avatar" name="avatar" type="hidden" th:value="${contact} ? ${contact.avatar}"/>
 
                     <!--                    <div class="form-group">-->
 <!--                        <div class="col-md-4">-->

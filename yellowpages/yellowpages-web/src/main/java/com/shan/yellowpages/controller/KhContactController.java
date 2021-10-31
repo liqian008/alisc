@@ -340,6 +340,9 @@ public class KhContactController extends AbstractBaseController implements Initi
 			model.addAttribute("name", name);
 		}
 
+
+
+
 		//筛选字段
 		String mobile = req.getParameter("mobile");
 		if (StringUtils.isNotBlank(mobile)) {
@@ -352,6 +355,14 @@ public class KhContactController extends AbstractBaseController implements Initi
 		if (StringUtils.isNotBlank(telphone)) {
 			subCriteria.andTelphoneLike("%" + StringUtils.trim(telphone) + "%");
 			model.addAttribute("telphone", telphone);
+		}
+
+
+		//筛选字段
+		String resume = req.getParameter("resume");
+		if (StringUtils.isNotBlank(resume)) {
+			subCriteria.andResumeLike("%" + StringUtils.trim(resume) + "%");
+			model.addAttribute("resume", resume);
 		}
 
 		//筛选字段
