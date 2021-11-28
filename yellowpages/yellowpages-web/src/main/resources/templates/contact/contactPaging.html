@@ -174,6 +174,7 @@
                     <i class="icon-people"></i>联系人管理
                 </h5>
                 <a href="./add" target="_blank"><span class="label label-danger pull-right">新增联系人</span></a>
+                <a id="btn_merge"><span class="label label-primary pull-right">合并联系人</span></a>
 
 <!--                <a onclick="exportExcel('./export')" th:if="${exportEnable}==true and ${pagingData.totalCount}<1000"><span class="label label-primary pull-right">1导出到Excel</span></a>-->
 
@@ -186,6 +187,7 @@
                 <table class="table table-bordered table-striped dataTable">
                     <thead>
                     <tr>
+                        <th>选择</th>
                         <th>ID</th>
                         <th>头像</th>
                         <th>姓名</th>
@@ -204,6 +206,9 @@
                     </thead>
                     <tbody>
                     <tr th:each="item : ${pagingData.dataList}">
+                        <td>
+                            <input type="checkbox" name="mergeIds" th:value="${item.id}">
+                        </td>
                         <td th:text="${item.id}"></td>
                         <td>
                             <a th:href="${item.avatar}" class="lightbox">
@@ -238,7 +243,7 @@
                                     <i class="icon-pencil3"></i>
                                 </a>
                                 <a th:href="@{/contact/clone(id=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" target="_blank" data-original-title="复 制">
-                                    <i class="icon-pencil3"></i>
+                                    <i class="icon-user-plus"></i>
                                 </a>
 <!--                                <a th:href="@{/contact/roleResourceSet(roleId=${item.id})}" class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="关联资源"><i class="icon-tree3"></i></a>-->
 <!--                                <a href="javascript:void(0)" th:onclick="'javascript:del(\''+${item.id}+'\')'"  class="btn btn-link btn-icon btn-xs tip" title="" data-original-title="删除"><i class="icon-remove3"></i></a>-->
@@ -544,6 +549,29 @@
 
 </div>
 <script th:inline="javascript">
+
+    $(document).ready(function() {
+        $("#btn_merge").on("click", function () {
+            var chk_value =[];
+            $('input[name="mergeIds"]:checked').each(function(){
+                chk_value.push($(this).val());
+            });
+            if(chk_value.length<2){
+                alert('请至少选择两个联系人进行合并');
+                return;
+            }
+
+            var url = "./merge?";
+            for(var i=0;i<chk_value.length;i++){
+                url = url+"mergeIds="+chk_value[i]+"&";
+            }
+            location.href=url;
+
+        })
+    });
+
+
+
     var pagingData = /*[[${pagingData}]]*/ null;
     var params = /*[[${params}]]*/ "";
     getTablePaginatorDom(pagingData, pagingData.pageSize,'.datatable-footer',"./paging?"+params)

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>合并联系人信息</title>
+
+    <div th:replace="inc/header :: base-source"></div>
+
+<!--    <style>-->
+<!--        .row > div {-->
+<!--            padding-top: 10px;-->
+<!--        }-->
+
+<!--    </style>-->
+</head>
+<body class="sidebar-wide">
+
+<div th:replace="inc/header :: header"></div>
+<!--<script src="//cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>-->
+<!--<link href="//cdn.bootcss.com/jquery.bootstrapvalidator/0.5.3/css/bootstrapValidator.min.css" rel="stylesheet">-->
+<!-- Page container -->
+<div class="page-container">
+
+    <div th:replace="inc/leftSidebar :: menu"></div>
+
+    <div class="page-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>
+                    合并联系人信息
+                </h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li><a th:href="@{/home/index}">首页</a></li>
+                <li class="active">合并联系人</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
+                   data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+
+            <div class="panel-heading">
+                <h5 class="panel-title">
+                    <i class="icon-people"></i>联系人
+                </h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped dataTable">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>头像</th>
+                        <th>姓名</th>
+                        <th>手机</th>
+                        <th>公司</th>
+                        <th>Email</th>
+                        <th class="team-links">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${mergeContactList}">
+                        <td th:text="${item.id}">
+<!--                            <a data-toggle="modal" role="button" th:href="'#form_modal_'+${item.id}">-->
+<!--                                <span class="label label-primary" th:text="${item.id}"></span>-->
+<!--                            </a>-->
+
+                        </td>
+                        <td>
+                            <a th:href="${item.avatar}" class="lightbox">
+                                <img width="36px" th:src="${item.avatar}" />
+                            </a>
+                        </td>
+                        <td>
+                            <span class="label label-info" th:text="${item.name}"></span>
+                        </td>
+
+                        <td th:title="'电话: '+${item.telphone}" >
+                            <span class="label label-primary" th:text="${item.mobile}"></span>
+                        </td>
+                        <td th:text="${item.company}"></td>
+                        <td th:title="'传真: '+${item.fax}" th:text="${item.email}"></td>
+
+
+                        </td>
+                        <td class='text-center'>
+                            <div class="table-controls">
+                                <a data-toggle="modal" role="button" th:href="'#form_modal_'+${item.id}">
+                                    <span class="label label-primary">查看</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <form id="mergeForm" action="./mergeSave" method="post" class="form-horizontal">
+            <input th:each="mergeContactItem : ${mergeContactList}" name="mergeIds" type="hidden" th:value="${mergeContactItem} ? ${mergeContactItem.id}" />
+
+             <!-- Basic inputs -->
+            <div class="panel panel-default">
+
+
+                <div class="panel-heading">
+                    <h6 class="panel-title">
+                        <i class="icon-bubble4"></i>合并联系人信息
+                    </h6>
+                </div>
+
+                <div class="panel-body">
+
+
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <label>头像</label><br/>
+                            <img id="avatarPreview" width="150px"/>
+                            <input type="file" class="styled form-control" id="avatarUploader" onchange="changeAvatar(this)" accept="*.gif, *.jpeg, *.png, *.jpg, *.bmp">
+                            <span class="help-block">支持格式: gif, png, jpg. 上限2M</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <label class="control-label">姓名</label>
+                            <input type="text" class="form-control" name="name" id="name" />
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label class="control-label">身份证</label>
+                            <input type="text" class="form-control" name="identity" id="identity" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label class="control-label">个人简介<span class="mandatory">*</span>
+                            </label>
+                            <textarea rows="3" cols="5" class="elastic form-control" id="resume" name="resume" placeholder="个人简介" maxlength="2000"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <label class="control-label">备注<span class="mandatory">*</span>
+                            </label>
+                            <textarea rows="3" cols="5" class="elastic form-control" id="remark" name="remark" placeholder="备注" maxlength="500"></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label class="control-label">国籍</label>
+                            <input type="text" class="form-control" name="nationalityName" id="nationalityName" />
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <label class="control-label">省份</label>
+                            <input type="text" class="form-control" name="provinceName" id="provinceName" />
+                        </div>
+
+
+                        <div class="col-sm-2">
+                            <label class="control-label">城市</label>
+                            <input type="text" class="form-control" name="cityName" id="cityName" />
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <label class="control-label">手机号</label>
+                            <input type="text" class="form-control" name="mobile" id="mobile" />
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <label class="control-label">联系电话</label>
+                            <input type="text" class="form-control" name="telphone" id="telphone" />
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <label class="control-label">邮箱</label>
+                            <input type="text" class="form-control" name="email" id="email" />
+                        </div>
+
+
+                        <div class="col-sm-4">
+                            <label class="control-label">传真</label>
+                            <input type="text" class="form-control" name="fax" id="fax" />
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <label class="control-label">公司信息<span class="mandatory">*</span></label>
+                            <input type="text" class="form-control" name="company" id="company" />
+<!--                            <span class="help-block">中文名称</span>-->
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="control-label">英文名称<span class="mandatory">*</span></label>
+                            <input type="text" class="form-control" name="companyEn" id="companyEn" />
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label class="control-label">公司网址<span class="mandatory">*</span></label>
+                            <input type="text" class="form-control" name="companyWebsite" id="companyWebsite" />
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-3">
+                            <label class="control-label">职位<span class="mandatory">*</span></label>
+                            <input type="text" class="form-control" name="title" id="title" />
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label class="control-label">部门<span class="mandatory">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="department" id="department" />
+                        </div>
+
+                        <div class="col-sm-3">
+                            <label class="control-label">所在行业<span class="mandatory">*</span>
+                            </label>
+                            <input type="text" class="form-control" name="industry" id="industry" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label class="control-label">地址<span class="mandatory">*</span></label>
+                            <textarea rows="3" cols="5" class="elastic form-control" id="address" name="address" placeholder="地址" ></textarea>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">状 态<span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-4">
+                            <select class="form-control " id="status" name="status">
+                                <option value="1" label="启用"></option>
+                                <option value="0" label="禁用"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions text-right">
+                        <input type="reset" value="重 置" class="btn btn-primary">
+                        <input id="btn_submit" type="button" value="提 交" class="btn btn-info">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div th:replace="inc/footer :: footer"></div>
+    </div>
+
+
+    <!-- Form modal -->
+    <div th:each="item : ${mergeContactList}" th:id="'form_modal_'+${item.id}" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">联系人信息</h4>
+
+                </div>
+
+                <!-- Form inside modal -->
+                <form action="visuals.html#" role="form">
+                    <div class="modal-body with-padding">
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>头像</label><br/>
+                                    <img th:src="${item.avatar}" width="150px"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">姓名</label>
+                                    <input type="text" class="form-control" name="name" th:value="${item.name}" readonly/>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">身份证</label>
+                                    <input type="text" class="form-control" name="identity" th:value="${item.identity}" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">手机号</label>
+                                    <input type="text" class="form-control" name="mobile" th:value="${item.mobile}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">联系电话</label>
+                                    <input type="text" class="form-control" name="telphone" th:value="${item.telphone}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">邮箱</label>
+                                    <input type="text" class="form-control" name="email" th:value="${item.email}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">传真</label>
+                                    <input type="text" class="form-control" name="fax" th:value="${item.fax}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">国籍</label>
+                                    <input type="text" class="form-control" name="nationalityName" th:value="${item.nationalityName}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">传真</label>
+                                    <input type="text" class="form-control" name="provinceName" th:value="${item.provinceName}" readonly/>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">传真</label>
+                                    <input type="text" class="form-control" name="cityName" th:value="${item.cityName}" readonly/>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="control-label" style="display:block">个人简介</label>
+                                    <span th:text="${item.resume}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="control-label" style="display:block">备注</label>
+                                    <span th:text="${item.remark}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <label class="control-label" style="display:block">描述</label>
+                                    <textarea rows="3" cols="5" class="elastic form-control" name="remark" placeholder="备注" th:value="${item.remark}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label class="control-label">公司信息</label>
+                                    <input type="text" class="form-control" name="company"  th:value="${item.company}" readonly/>
+                                    <!--                            <span class="help-block">中文名称</span>-->
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="control-label">英文名称</label>
+                                    <input type="text" class="form-control" name="companyEn" th:value="${item.companyEn}" readonly/>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">公司网址</label>
+                                    <input type="text" class="form-control" name="companyWebsite" th:value="${item.companyWebsite}" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label class="control-label">职位</label>
+                                    <input type="text" class="form-control" name="title"  th:value="${item.title}" readonly/>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">部门
+                                    </label>
+                                    <input type="text" class="form-control" name="department" th:value="${item.department}" readonly/>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="control-label">所在行业
+                                    </label>
+                                    <input type="text" class="form-control" name="industry" th:value="${item.industry}" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label class="control-label">地址</label>
+                                    <!--                                    <textarea rows="3" cols="5" class="elastic form-control" name="address" placeholder="地址" th:value="${item.address}"></textarea>-->
+                                    <span th:text="${item.address}"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <label class="control-label">地址</label>
+                                    <textarea rows="3" cols="5" class="elastic form-control" name="address" placeholder="地址" th:value="${item.address}"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">关 闭</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /form modal -->
+
+
+</div>
+<script>
+
+    $(document).ready(function() {
+        $("#btn_submit").on("click", function () {
+            if(confirm("提交后会创建一条合并后的联系人记录，并将参与合并的联系人全部删除。\n" +
+                "此操作不可恢复，确定要继续吗？")){
+                document.getElementById("mergeForm").submit();
+            }
+        })
+    });
+
+
+    function changeAvatar(file) {
+        console.log(file.value);
+
+        var formData = new FormData();
+        formData.append('file', $('#avatarUploader')[0].files[0]); // 固定格式
+
+        $.ajax({
+            url: "/upload/uploadFile.json",														//后台接收数据地址
+            //headers:{'Content-Type':'multipart/form-data'},//加上这个报错
+            data:formData,
+            type: "POST",
+            dataType: "json",
+            cache: false,			//上传文件无需缓存
+            processData: false,		//用于对data参数进行序列化处理 这里必须false
+            contentType: false,
+            success:function(res){
+                var result=res;
+                var errorCode=result.errorCode;
+                if (errorCode==0){
+                    // alert("图片上传成功！");
+                    $("#avatar").val(result.data.resUrl);
+                    $("#avatarPreview").attr("src", result.data.resUrl);
+                }else{
+                    alert(result.errorMessage);
+                }
+            },
+            failure: function (res) {
+                // alert("图片上传失败！");
+                alert(result.errorMessage);
+            }
+        })
+
+
+    }
+
+</script>
+</body>
+</html>

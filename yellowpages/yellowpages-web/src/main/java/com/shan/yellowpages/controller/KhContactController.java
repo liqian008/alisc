@@ -2,6 +2,8 @@ package com.shan.yellowpages.controller;
 
 import com.shan.yellowpages.annotation.AuthorizeConfig;
 import com.shan.yellowpages.base.enumeration.StatusEnum;
+import com.shan.yellowpages.base.exception.IKhErrorCode;
+import com.shan.yellowpages.base.exception.KhRuntimeException;
 import com.shan.yellowpages.base.model.paging.KhPagingResult;
 import com.shan.yellowpages.controller.base.AbstractBaseController;
 import com.shan.yellowpages.security.model.*;
@@ -32,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 联系人controller
@@ -195,6 +198,34 @@ public class KhContactController extends AbstractBaseController implements Initi
 		return "contact/contactEdit";
 	}
 
+
+	/**
+	 *
+	 * @param model
+	 * @param mergeIds
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/merge")
+	public String merge(Model model, int[] mergeIds, HttpServletRequest req) {
+
+		if(mergeIds==null ||  mergeIds.length<=1){
+			throw new KhRuntimeException(IKhErrorCode.UPLOAD_FILE_ERROR, "参数错误", "参数错误");
+		}
+
+		String servletPath = req.getRequestURI();
+		model.addAttribute("servletPath", servletPath);
+
+		KhContactEntityCriteria criteria = new KhContactEntityCriteria();
+		List<Integer> mergeIdList = Arrays.stream(mergeIds).boxed().collect(Collectors.toList());
+		criteria.createCriteria().andIdIn(mergeIdList);
+
+		List<KhContactEntity> mergeContactList = khContactEntityService.queryByCriteria(criteria);
+		model.addAttribute("mergeContactList", mergeContactList);
+
+		return "contact/contactMerge";
+	}
+
 	/**
 	 * 处理活动列表
 	 * @param contactId 联系人id
@@ -251,13 +282,6 @@ public class KhContactController extends AbstractBaseController implements Initi
 
 		int result =0;
 
-//		TODO 检查
-//		String username = contact.getContactname();
-//		if (StringUtils.isBlank(username)) {
-//			model.addAttribute("message", "用户信息输入有误，请检查！");
-//			return "forward:/home/operationResult";
-//		}
-
 		// 过滤非法字符
 //		username = KhValidatorUtil.filterUnSafeChar(username).trim();
 //		contact.setContactname(username);
@@ -302,14 +326,39 @@ public class KhContactController extends AbstractBaseController implements Initi
 				}
 			}
 		}
+		req.setAttribute("redirectUrl", "./paging");
+		return "forward:/home/operationRedirect";
+	}
 
 
+	@RequestMapping(value = "/mergeSave", method = RequestMethod.POST)
+	public String mergeSave(Model model, KhContactEntity contact, int[] mergeIds, HttpServletRequest req) {
 
+		if(mergeIds==null ||  mergeIds.length<=1){
+			throw new KhRuntimeException(IKhErrorCode.UPLOAD_FILE_ERROR, "参数错误", "参数错误");
+		}
+		String servletPath = req.getRequestURI();
 
+		Date currentTime = new Date();
+		contact.setLastModUid(getLoginUser(req).getId());
+		contact.setUpdateTime(currentTime);
+		// 创建新用户
+		contact.setCreateTime(currentTime);
+
+		if(StringUtils.isBlank(contact.getAvatar())){
+			contact.setAvatar(null);
+		}
+		khContactEntityService.save(contact);
+
+		khContactEntityService.mergeContact(contact, mergeIds);
 
 		req.setAttribute("redirectUrl", "./paging");
 		return "forward:/home/operationRedirect";
 	}
+
+
+
+
 
 	@RequestMapping(value = "/delete")
 	public String delete(Model model, int id, HttpServletRequest req) {

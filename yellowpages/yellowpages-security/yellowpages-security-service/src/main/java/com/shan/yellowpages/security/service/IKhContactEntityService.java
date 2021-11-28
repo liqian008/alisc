@@ -51,4 +51,16 @@ public interface IKhContactEntityService extends IKhBaseService<KhContactEntity,
 	List<KhContactEntity> listDtoByActivity(int activityId, KhContactEntityCriteria criteria);
 
 
+	/**
+	 * merge联系人
+	 *
+	 * @param contact
+	 * @param mergeIds
+	 * @return
+	 */
+	boolean mergeContact(KhContactEntity contact, int[] mergeIds);
+
+
+
+
 }
