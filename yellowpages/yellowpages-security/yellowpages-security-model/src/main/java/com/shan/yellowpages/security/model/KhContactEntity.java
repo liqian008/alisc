@@ -124,6 +124,12 @@ public class KhContactEntity implements Serializable {
     private String industry;
 
     /**
+     * 国家id
+     * 表字段 : kh_contact.country_id
+     */
+    private Integer countryId;
+
+    /**
      * 国籍，0未知
      * 表字段 : kh_contact.nationality
      */
@@ -536,6 +542,24 @@ public class KhContactEntity implements Serializable {
     }
 
     /**
+     * 获取 国家id 字段:kh_contact.country_id
+     *
+     * @return kh_contact.country_id, 国家id
+     */
+    public Integer getCountryId() {
+        return countryId;
+    }
+
+    /**
+     * 设置 国家id 字段:kh_contact.country_id
+     *
+     * @param countryId the value for kh_contact.country_id, 国家id
+     */
+    public void setCountryId(Integer countryId) {
+        this.countryId = countryId;
+    }
+
+    /**
      * 获取 国籍，0未知 字段:kh_contact.nationality
      *
      * @return kh_contact.nationality, 国籍，0未知
@@ -743,6 +767,7 @@ public class KhContactEntity implements Serializable {
         sb.append(", address=").append(address);
         sb.append(", postcode=").append(postcode);
         sb.append(", industry=").append(industry);
+        sb.append(", countryId=").append(countryId);
         sb.append(", nationality=").append(nationality);
         sb.append(", nationalityName=").append(nationalityName);
         sb.append(", provinceName=").append(provinceName);

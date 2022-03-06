@@ -12,6 +12,7 @@ import com.shan.yellowpages.security.model.struct.ContactStruct;
 import com.shan.yellowpages.security.service.IKhActivityContactRelationEntityService;
 import com.shan.yellowpages.security.service.IKhActivityEntityService;
 import com.shan.yellowpages.security.service.IKhContactEntityService;
+import com.shan.yellowpages.security.service.IKhCountryEntityService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -56,6 +57,9 @@ public class KhContactController extends AbstractBaseController implements Initi
 	private IKhActivityEntityService khActivityEntityService;
 	@Autowired
 	private IKhActivityContactRelationEntityService khActivityContactRelationEntityService;
+	@Autowired
+	private IKhCountryEntityService khCountryEntityService;
+
 
 
 
@@ -63,6 +67,7 @@ public class KhContactController extends AbstractBaseController implements Initi
 		Assert.notNull(khContactEntityService, "khContactEntityService can't be null");
 		Assert.notNull(khActivityEntityService, "khActivityEntityService can't be null");
 		Assert.notNull(khActivityContactRelationEntityService, "khActivityContactRelationEntityService can't be null");
+		Assert.notNull(khCountryEntityService, "khCountryEntityService can't be null");
 	}
 
 
@@ -84,6 +89,10 @@ public class KhContactController extends AbstractBaseController implements Initi
 			exportEnable = true;
 		}
 		model.addAttribute("exportEnable", exportEnable);
+
+		List<KhCountryEntity> countryList = khCountryEntityService.getCountryList();
+		model.addAttribute("countryList", countryList);
+
 
 		//构造查询参数
 		buildParams(req);
@@ -142,6 +151,10 @@ public class KhContactController extends AbstractBaseController implements Initi
 		List<ContactActivityStruct> activityStructList = processActivityList(null);
 		model.addAttribute("activityStructList", activityStructList);
 
+		//国家列表
+		List<KhCountryEntity> countryList = khCountryEntityService.getCountryList();
+		model.addAttribute("countryList", countryList);
+
 
 		model.addAttribute("activityStructList", activityStructList);
 
@@ -191,6 +204,10 @@ public class KhContactController extends AbstractBaseController implements Initi
 
 		List<ContactActivityStruct> activityStructList = processActivityList(id);
 		model.addAttribute("activityStructList", activityStructList);
+
+		//国家列表
+		List<KhCountryEntity> countryList = khCountryEntityService.getCountryList();
+		model.addAttribute("countryList", countryList);
 
 		if(KhContactEntity.isValid(contact) && StringUtils.isBlank(contact.getAvatar())){
 			contact.setAvatar(ContactStruct.AVATAR_DEFAULT);
@@ -390,8 +407,6 @@ public class KhContactController extends AbstractBaseController implements Initi
 		}
 
 
-
-
 		//筛选字段
 		String mobile = req.getParameter("mobile");
 		if (StringUtils.isNotBlank(mobile)) {
@@ -484,6 +499,16 @@ public class KhContactController extends AbstractBaseController implements Initi
 			subCriteria.andDepartmentLike("%" + StringUtils.trim(department) + "%");
 			model.addAttribute("department", department);
 		}
+
+		//筛选字段
+		String countryIdStr = req.getParameter("countryId");
+		int countryId = NumberUtils.toInt(countryIdStr, 0);
+		if (countryId>0) {
+			subCriteria.andCountryIdEqualTo(countryId);
+		}
+		KhContactEntity contactEntity = new KhContactEntity();
+		contactEntity.setCountryId(countryId);
+		model.addAttribute("contactEntity", contactEntity);
 
 		criteria.setOrderByClause("  name asc");
 

@@ -129,10 +129,23 @@
                                 <input type="text" placeholder="支持模糊匹配" class="form-control" name="department" id="department" th:value="${department}"/>
                             </div>
 
+<!--                            <div class="col-sm-2">-->
+<!--                                <label class="control-label">所在行业</label>-->
+<!--                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="industry" id="industry" th:value="${industry}"/>-->
+<!--                            </div>-->
+
+
                             <div class="col-sm-2">
-                                <label class="control-label">所在行业</label>
-                                <input type="text" placeholder="支持模糊匹配" class="form-control" name="industry" id="industry" th:value="${industry}"/>
+                                <label class="control-label">部门</label>
+                                </label>
+                                    <select th:field="*{contactEntity.countryId}" name="countryId">
+                                    <option value="0">所有</option>
+                                    <option th:each="loopCountry : ${countryList}" th:text="${loopCountry.cnName}" th:value="${loopCountry.id}"></option>
+                                </select>
                             </div>
+
+
+
                         </div>
 
                     </div>

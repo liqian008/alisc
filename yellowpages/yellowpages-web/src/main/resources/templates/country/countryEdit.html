@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>公司管理</title>
+    <title>国家管理</title>
 
     <div th:replace="inc/header :: base-source"></div>
 
@@ -31,14 +31,14 @@
         <div class="page-header">
             <div class="page-title">
                 <h3>
-                    公司管理
+                    国家管理
                 </h3>
             </div>
         </div>
         <div class="breadcrumb-line">
             <ul class="breadcrumb">
                 <li><a th:href="@{/home/index}">首页</a></li>
-                <li class="active">公司管理</li>
+                <li class="active">国家管理</li>
             </ul>
             <div class="visible-xs breadcrumb-toggle">
                 <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse"
@@ -57,42 +57,34 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h6 class="panel-title">
-                        <i class="icon-bubble4"></i>编辑公司信息
+                        <i class="icon-bubble4"></i>编辑国家信息
                     </h6>
                 </div>
                 <div class="panel-body">
-                    <input th:if="${company} != null" id="id" name="id" type="hidden" th:value="${company} ? ${company.id}" />
+                    <input th:if="${country} != null" id="id" name="id" type="hidden" th:value="${country} ? ${country.id}" />
                     <div class="form-group">
-                        <label class="col-sm-2 control-label text-right">公司名称: <span class="mandatory">*</span>
+                        <label class="col-sm-2 control-label text-right">国家编码: <span class="mandatory">*</span>
                         </label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" name="name" id="name" th:value="${company.name}"/>
+                            <input type="text" class="form-control" name="code" id="code" th:value="${country.code}"/>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label text-right">中文名称: <span class="mandatory">*</span>
+                        </label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" name="cnName" id="cnName" th:value="${country.cnName}"/>
+                        </div>
+                    </div>
+
+
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label text-right">英文名称: <span class="mandatory">*</span>
                         </label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" name="enName" id="enName" th:value="${company.enName}"/>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label text-right">公司网址: <span class="mandatory">*</span>
-                        </label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" name="companyWebsite" id="companyWebsite" th:value="${company.website}"/>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label text-right">地址: <span class="mandatory">*</span>
-                        </label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="address" id="address" th:value="${company.address}"/>
+                            <input type="text" class="form-control" name="enName" id="enName" th:value="${country.enName}"/>
                         </div>
                     </div>
 
@@ -101,7 +93,7 @@
                         <label class="col-sm-2 control-label text-right">状 态: <span class="mandatory">*</span>
                         </label>
                         <div class="col-sm-4">
-                            <select class="form-control " id="status" name="status" th:field="${company.status}">
+                            <select class="form-control " id="status" name="status" th:field="${country.status}">
                                 <option value="1" label="启用"></option>
                                 <option value="0" label="禁用"></option>
                             </select>
@@ -119,20 +111,20 @@
     </div>
 </div>
 <script>
-    $(function(){
-        $('#validate').bootstrapValidator({
-            fields: {
-                "name": {
-                    message: '公司姓名不符合要求',
-                    validators: {
-                        notEmpty: {
-                            message: '公司姓名不能为空'
-                        }
-                    }
-                }
-            }
-        });
-    })
+    // $(function(){
+    //     $('#validate').bootstrapValidator({
+    //         fields: {
+    //             "name": {
+    //                 message: '国家姓名不符合要求',
+    //                 validators: {
+    //                     notEmpty: {
+    //                         message: '国家姓名不能为空'
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     });
+    // })
 
 </script>
 </body>
