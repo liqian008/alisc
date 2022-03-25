@@ -190,6 +190,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
                 <configuration>
                     <!-- 如果没有该配置，热部署的devtools不生效 -->
                     <fork>true</fork>
