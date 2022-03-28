@@ -35,8 +35,8 @@ public class ExcelUtil implements InitializingBean {
 
 	@Autowired
 	private IKhContactEntityService khContactEntityService;
-	@Autowired
-	private IKhCompanyEntityService khCompanyEntityService;
+//	@Autowired
+//	private IKhCompanyEntityService khCompanyEntityService;
 
 	/**
 	 * 导出excel

@@ -72,3 +72,6 @@ upload:
     suffix: http://data.jizei.wang/static/upload/
 
 log.path: /opt/springboot/yellowpages/logs
+
+mybatis:
+  mapper-location: classpath*:com/shan/yellowpages/**/*.xml

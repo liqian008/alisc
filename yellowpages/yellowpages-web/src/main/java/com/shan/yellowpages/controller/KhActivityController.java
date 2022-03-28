@@ -216,8 +216,10 @@ public class KhActivityController extends AbstractBaseController implements Init
 		if(StringUtils.isBlank(name)){
 			name = null;
 		}else{
+			model.addAttribute("name", name);
 			name = "%" + name + "%";
 		}
+
 		KhPagingResult<ContactStruct> pagingResult = khContactEntityService.pagingDtoByActivity(pageNo, pageSize, activityId, name, criteria);
 		model.addAttribute("pagingData", pagingResult);
 		return "activity/contactPaging";
