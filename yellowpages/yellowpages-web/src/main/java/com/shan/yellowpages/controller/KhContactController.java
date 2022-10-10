@@ -437,17 +437,17 @@ public class KhContactController extends AbstractBaseController implements Initi
 		}
 
 		//筛选字段
-		String email = req.getParameter("email");
-		if (StringUtils.isNotBlank(email)) {
-			subCriteria.andEmailLike("%" + StringUtils.trim(email) + "%");
-			model.addAttribute("email", email);
-		}
-
-		//筛选字段
 		String address = req.getParameter("address");
 		if (StringUtils.isNotBlank(address)) {
 			subCriteria.andAddressLike("%" + StringUtils.trim(address) + "%");
 			model.addAttribute("address", address);
+		}
+
+		//筛选字段
+		String email = req.getParameter("email");
+		if (StringUtils.isNotBlank(email)) {
+			subCriteria.andEmailLike("%" + StringUtils.trim(email) + "%");
+			model.addAttribute("email", email);
 		}
 
 		//筛选字段
